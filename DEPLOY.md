@@ -8,7 +8,12 @@ export PROJECT=test
 ```sh
 git clone https://github.com/keramsey/swhub-drupal.git swhub-$PROJECT
 ```
-2. Run script by modifying the following example (single command line) as needed
+2. Create .env file containing one line containing the mysql root user password
+```sh
+nano swhub-$PROJECT/.secrets/.env
+```
+Note: Add one line  'MYSQL_ROOT_PASSWORD=<password>' (no quotes), substituting <password> with desired password used by a separate phpmyadmin stack
+3. Run script by modifying the following example (single command line) as needed
 ```sh
 SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash swhub-$PROJECT/src/deploy-drupal.sh
 ```
@@ -18,4 +23,4 @@ Notes:
 - DRUPAL_VER = desired drupal version after upgrade (e.g., 9.5.3)
 - PROJECT_TAG = desired image tag when pushing to Docker Hub (e.g., 1.0.0)
 - PROJECT = used to name folder, image and stack drupal service (including network and volumes)
-3. Provide root user password to copy source website files and folders
+4. Provide server's root user password to copy source website files and folders
