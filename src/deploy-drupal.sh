@@ -143,11 +143,11 @@ echo "MYSQL_PASSWORD="$password >> /opt/docker/swhub-$PROJECT/.secrets/.env
 # Change directory
 cd /opt/docker/swhub-$PROJECT
 # Create docker volumes
-docker volume create swhub-$PROJECT-drupal
-docker volume create swhub-$PROJECT-drupal-data
-docker volume create swhub-$PROJECT-mysql-data
+docker volume create $PROJECT-drupal
+docker volume create $PROJECT-drupal-data
+docker volume create $PROJECT-mysql-data
 # Create docker network
-docker network create --driver=overlay swhub-$PROJECT-net
+docker network create --driver=overlay $PROJECT-net
 
 #
 # NEED TO INTEGRATE WITH Dockerfile
