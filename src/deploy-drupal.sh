@@ -31,13 +31,6 @@ mkdir /opt/docker/swhub-$PROJECT
 # Change directory
 cd /opt/docker
 
-# Create folders
-mkdir /opt/docker/swhub-$PROJECT/src
-mkdir /opt/docker/swhub-$PROJECT/src/site
-mkdir /opt/docker/swhub-$PROJECT/src/site/default
-mkdir /opt/docker/swhub-$PROJECT/src/mysql
-mkdir /opt/docker/swhub-$PROJECT/.secrets
-
 # Download drupal
 wget https://ftp.drupal.org/files/projects/drupal-$DRUPAL_VER.tar.gz
 # Extract default.settings.php from drupal version download
