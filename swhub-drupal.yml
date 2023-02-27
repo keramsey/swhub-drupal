@@ -9,7 +9,7 @@ services:
     env_file:
       - /opt/docker/swhub-test/.secrets/.env
     networks:
-      - swhub-test-net
+      - test-net
     expose: 
       - 3306
     volumes:
@@ -24,7 +24,7 @@ services:
     depends_on:
       - mysql
     networks:
-      - swhub-test-net
+      - test-net
       - public
     volumes:
       - test-drupal:/opt/drupal

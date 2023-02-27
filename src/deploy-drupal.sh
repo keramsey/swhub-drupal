@@ -136,6 +136,10 @@ sed -i "/\ \*\ @see\ https:\/\/www\.drupal\.org\/docs\/installing-drupal\/truste
 # Delete and replace D7 settings.php file
 rm -f /opt/docker/swhub-$PROJECT/src/site/default/settings.php
 mv /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php /opt/docker/swhub-$PROJECT/src/site/default/settings.php
+# Rename docker-compose.yml file
+mv /opt/docker/swhub-$PROJECT/swhub-drupal.yml /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
+# Search and replace within docker-compose.yml file using PROJECT
+sed -i /test/${PROJECT}/ /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
 # Create .secrets/.env file for configuring mysql container
 echo "MYSQL_DATABASE="$database >> /opt/docker/swhub-$PROJECT/.secrets/.env
 echo "MYSQL_USERNAME="$username >> /opt/docker/swhub-$PROJECT/.secrets/.env
