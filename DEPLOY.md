@@ -8,7 +8,7 @@ export PROJECT=test
 ```sh
 git clone https://github.com/keramsey/swhub-drupal.git swhub-$PROJECT
 ```
-2. Run script by modifying the following command line example as needed
+2. Run script by modifying the following example (single command line) as needed
 ```sh
 SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash swhub-$PROJECT/src/deploy-drupal.sh
 ```
@@ -18,3 +18,4 @@ Notes:
 - DRUPAL_VER = desired drupal version after upgrade (e.g., 9.5.3)
 - PROJECT_TAG = desired image tag when pushing to Docker Hub (e.g., 1.0.0)
 - PROJECT = used to name folder, image and stack drupal service (including network and volumes)
+3. Provide root user password to copy source website files and folders
