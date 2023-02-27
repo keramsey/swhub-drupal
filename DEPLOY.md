@@ -10,7 +10,7 @@ git clone https://github.com/keramsey/swhub-drupal.git swhub-$PROJECT
 ```
 2. Run script by modifying the following command line example as needed
 ```sh
-SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash $PROJECT/src/deploy-drupal.sh
+SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash swhub-$PROJECT/src/deploy-drupal.sh
 ```
 Notes:
 - SERVER = docker swarm server domain name (FQDN)
