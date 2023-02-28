@@ -157,7 +157,7 @@ my+="user=${user}/n"
 my+="password=${password}"
 
 # The sed command is intentionally split with a hard line return for multiline output
-sed -i "$ /$/{N;a ${my}
+sed "$ s/$/{N;a ${my}
 }" ~/.my.cnf
 
 # Backup website (Drupal 8) database (~/.my.cnf must exist and contain login credentials)
