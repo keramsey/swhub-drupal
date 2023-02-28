@@ -139,7 +139,7 @@ sed -i "s/# \$settings\['file_temp_path'\]\ \=\ '\/tmp';/\$settings\['file_temp_
 #trusted_host_patterns+="\ \ '\^${SEC_DOMAIN_PATTERN}\$',\n"
 #trusted_host_patterns+="\];"
 trusted_host_patterns="\$settings\['trusted_host_patterns'\]\ \=\ \[\n"
-trusted_host_patterns+="\ \ '\^${DOMAIN//\./\\\.}\$',\n"
+trusted_host_patterns+="\ \ '\^${DOMAIN//./\\\\\\.}\$',\n"
 trusted_host_patterns+="\ \ '\^${SEC_DOMAIN_PATTERN}\$',\n"
 trusted_host_patterns+="\];"
 # Within settings.php add 2nd TRUSTED_HOST array member
