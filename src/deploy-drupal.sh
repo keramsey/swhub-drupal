@@ -9,7 +9,15 @@
 PROJECT_URL=${PROJECT}.${SERVER}
 
 #
-# NEED TO ADD MORE VARIABLES TO FULLY AUTOMATE MODIFICATION OF docker-compose.yml and Dockerfile
+# NEED TO DYNAMICALLY CREATE ~/.my.cnf using database-settings array
+#
+
+#
+# NEED TO ADD MORE VARIABLES TO FULLY AUTOMATE MODIFICATION OF docker-compose.yml
+#
+
+#
+# NEED TO ADD MORE VARIABLES TO FULLY AUTOMATE MODIFICATION OF Dockerfile
 #
 
 #
@@ -19,8 +27,11 @@ PROJECT_URL=${PROJECT}.${SERVER}
 #
 # NEED TO AUTOMATICALLY INSERT BACKSLASHES USING $PROJECT, $SERVER AND $DOMAIN USING SED
 #
-PRI_DOMAIN_PATTERN=test\.swclimatehub\.info
-SEC_DOMMAIN_PATTERN=test\.jornada-swhub\.nmsu\.edu
+# USE $DOMAIN FOR PRI_DOMAIN_PATTERN AND USE $PROJECT.$SERVER FOR SEC_DOMAIN_PATTERN
+PRI_DOMAIN_PATTERN=temp\.swclimatehub\.info
+PRI_DOMAIN_PATTERN=${DOMAIN//./\\.}
+SEC_DOMAIN_PATTERN=temp\.jornada-swhub\.nmsu\.edu
+#SEC_DOMAIN_PATTERN=$PROJECT\\\.${SERVER//./\\.}
 
 # Store current working directory
 ORIGINAL_DIR=$(pwd)
@@ -125,7 +136,7 @@ sed -i "s/# \$settings\['file_temp_path'\]\ \=\ '\/tmp';/\$settings\['file_temp_
 # Build replace string
 trusted_host_patterns="\$settings\['trusted_host_patterns'\]\ \=\ \[\n"
 trusted_host_patterns+="\ \ '\^${PRI_DOMAIN_PATTERN}\$',\n"
-trusted_host_patterns+="\ \ '\^${SEC_DOMMAIN_PATTERN}\$',\n"
+trusted_host_patterns+="\ \ '\^${SEC_DOMAIN_PATTERN}\$',\n"
 trusted_host_patterns+="\];"
 # Within settings.php add 2nd TRUSTED_HOST array member
 # 1st TRUSTED_HOST: '^test\.swclimatehub\.info$',
@@ -139,7 +150,7 @@ mv /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php /opt/docker/
 # Rename docker-compose.yml file
 mv /opt/docker/swhub-$PROJECT/swhub-drupal.yml /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
 # Search and replace within docker-compose.yml file using PROJECT
-sed -i /test/${PROJECT}/ /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
+sed -i "s/test/${PROJECT}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
 # Create .secrets/.env file for configuring mysql container
 echo "MYSQL_DATABASE="$database >> /opt/docker/swhub-$PROJECT/.secrets/.env
 echo "MYSQL_USERNAME="$username >> /opt/docker/swhub-$PROJECT/.secrets/.env
