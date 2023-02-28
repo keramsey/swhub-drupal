@@ -30,7 +30,7 @@ PROJECT_URL=${PROJECT}.${SERVER}
 # USE $DOMAIN FOR PRI_DOMAIN_PATTERN AND USE $PROJECT.$SERVER FOR SEC_DOMAIN_PATTERN
 #PRI_DOMAIN_PATTERN=test\.swclimatehub\.info
 PRI_DOMAIN_PATTERN=${DOMAIN//./\\.}
-SEC_DOMAIN_PATTERN=test\.jornada-swhub\.nmsu\.edu
+SEC_DOMAIN_PATTERN=test\\\.jornada-swhub\\\.nmsu\\\.edu
 #SEC_DOMAIN_PATTERN=$PROJECT\\\.${SERVER//./\\.}
 
 # Store current working directory
