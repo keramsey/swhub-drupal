@@ -4,7 +4,7 @@
 # ***************************************************************************************
 #
 # Must include prefixes (~ARGUMENTS) in command line calling this script
-#   e.g., 'PROJECT=test SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash /opt/docker/deploy-drupal.sh'
+#   e.g., 'SRC_DB=jornada-src PROJECT=test SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash /opt/docker/deploy-drupal.sh'
 #
 PROJECT_URL=${PROJECT}.${SERVER}
 

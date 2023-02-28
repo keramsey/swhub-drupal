@@ -20,7 +20,7 @@ nano swhub-$PROJECT/.secrets/.env
 Note: Add one line  "MYSQL_ROOT_PASSWORD='<password>'" (without double quotes), substituting <password> with desired password used by a separate phpmyadmin stack
 6. Run script by modifying the following example (single command line) as needed
 ```sh
-SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash swhub-$PROJECT/src/deploy-drupal.sh
+SRC_DB=jornada-src SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash swhub-$PROJECT/src/deploy-drupal.sh
 ```
 Notes:
 - SERVER = docker swarm server domain name (FQDN)
