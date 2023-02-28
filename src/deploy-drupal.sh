@@ -24,15 +24,6 @@ PROJECT_URL=${PROJECT}.${SERVER}
 # NEED TO ADD MORE VARIABLES TO FULLY AUTOMATE SCRIPT USING 'ARGUMENTS' (e.g., scp and mysqldump info)
 #
 
-#
-# NEED TO AUTOMATICALLY INSERT BACKSLASHES USING $PROJECT, $SERVER AND $DOMAIN USING SED
-#
-# USE $DOMAIN FOR PRI_DOMAIN_PATTERN AND USE $PROJECT.$SERVER FOR SEC_DOMAIN_PATTERN
-#PRI_DOMAIN_PATTERN=test\.swclimatehub\.info
-PRI_DOMAIN_PATTERN=${DOMAIN//./\\.}
-SEC_DOMAIN_PATTERN=test\.jornada-swhub\.nmsu\.edu
-#SEC_DOMAIN_PATTERN=$PROJECT\\\.${SERVER//./\\.}
-
 # Store current working directory
 ORIGINAL_DIR=$(pwd)
 
@@ -134,18 +125,14 @@ sed -i "s/\$settings\['hash_salt'\]\ \=\ '';/\$settings\['hash_salt'\]\ \=\ ${ha
 sed -i "s/# \$settings\['file_private_path'\]\ \=\ '';/\$settings\['file_private_path'\]\ \=\ '\/opt\/drupal\/private\/files'\;/" /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php
 sed -i "s/# \$settings\['file_temp_path'\]\ \=\ '\/tmp';/\$settings\['file_temp_path'\]\ \=\ '\/opt\/drupal\/private\/temp'\;/" /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php
 # Build replace string
-#trusted_host_patterns="\$settings\['trusted_host_patterns'\]\ \=\ \[\n"
-#trusted_host_patterns+="\ \ '\^${PRI_DOMAIN_PATTERN}\$',\n"
-#trusted_host_patterns+="\ \ '\^${SEC_DOMAIN_PATTERN}\$',\n"
-#trusted_host_patterns+="\];"
 trusted_host_patterns="\$settings\['trusted_host_patterns'\]\ \=\ \[\n"
 trusted_host_patterns+="\ \ '\^${DOMAIN//./\\\\\\.}\$',\n"
-trusted_host_patterns+="\ \ '\^${SEC_DOMAIN_PATTERN}\$',\n"
+trusted_host_patterns+="\ \ '\^${PROJECT}\\\.${SERVER//./\\\\\\.}\$',\n"
 trusted_host_patterns+="\];"
 # Within settings.php add 2nd TRUSTED_HOST array member
 # 1st TRUSTED_HOST: '^test\.swclimatehub\.info$',
 # 2nd TRUSTED_HOST: '^test\.jornada-swhub\.nmsu\.edu$',
-# The sed command is intentionally split with a newline
+# The sed command is intentionally split with a hard line return to create seperate lines
 sed -i "/\ \*\ @see\ https:\/\/www\.drupal\.org\/docs\/installing-drupal\/trusted-host-settings/{N;a ${trusted_host_patterns}
 }" /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php
 # Delete and replace D7 settings.php file
