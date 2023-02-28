@@ -139,14 +139,14 @@ sed -i "s/# \$settings\['file_temp_path'\]\ \=\ '\/tmp';/\$settings\['file_temp_
 #trusted_host_patterns+="\ \ '\^${SEC_DOMAIN_PATTERN}\$',\n"
 #trusted_host_patterns+="\];"
 trusted_host_patterns="\$settings\['trusted_host_patterns'\]\ \=\ \[\n"
-trusted_host_patterns+="\ \ '\^${PRI_DOMAIN_PATTERN}\$',\n"
+trusted_host_patterns+="\ \ '\^${DOMAIN//./\\.}\$',\n"
 trusted_host_patterns+="\ \ '\^${SEC_DOMAIN_PATTERN}\$',\n"
 trusted_host_patterns+="\];"
 # Within settings.php add 2nd TRUSTED_HOST array member
 # 1st TRUSTED_HOST: '^test\.swclimatehub\.info$',
 # 2nd TRUSTED_HOST: '^test\.jornada-swhub\.nmsu\.edu$',
 # The sed command is intentionally split with a newline
-sed -i "|\ \*\ @see\ https:\/\/www\.drupal\.org\/docs\/installing-drupal\/trusted-host-settings|{N;a ${trusted_host_patterns}
+sed -i "/\ \*\ @see\ https:\/\/www\.drupal\.org\/docs\/installing-drupal\/trusted-host-settings/{N;a ${trusted_host_patterns}
 }" /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php
 # Delete and replace D7 settings.php file
 rm -f /opt/docker/swhub-$PROJECT/src/site/default/settings.php
