@@ -149,7 +149,6 @@ echo "MYSQL_PASSWORD="$password >> /opt/docker/swhub-$PROJECT/.secrets/.env
 # Update Dockerfile
 sed -i "s/9-apache/9-${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Dockerfile
 
-# Create/update ~/.my.cnf using database_settings array
 # Build config file input
 my="[mysqldump${PROJECT}]\n"
 my+="user=${user}\n"
@@ -161,7 +160,7 @@ my+="user=${user}/n"
 my+="password=${password}"
 
 # Append 2 sections to end of ~/.my.cnf
-sed "$ s/$/$my/" ~/.my.cnf
+echo ${my} >> ~/.my.cnf
 
 # Create docker volumes
 docker volume create $PROJECT-drupal
