@@ -32,9 +32,6 @@ rm -f drupal-$DRUPAL_VER.tar.gz
 # Copy website site folder
 scp -r root@jornada-climhub:/drupal8/drupal-8.9.20/sites/dust.swclimatehub.info/* /opt/docker/swhub-$PROJECT/src/site/default/
 
-# Backup website (Drupal 8) database (~/.my.cnf must exist and contain login credentials)
-mysqldump --column-statistics=0 -h jornada-climhub dustswclimatehub | gzip > /opt/docker/swhub-$PROJECT/src/mysql/site-db.sql.gz
-
 # Store database setting values
 cd /opt/docker/swhub-$PROJECT/src/site/default
 while IFS=' = ' read -r var val
@@ -159,12 +156,12 @@ my+="[mysql${PROJECT}]/n"
 my+="user=${user}/n"
 my+="password=${password}"
 
-# Append 2 sections to end of ~/.my.cnf
-#echo ${my} >> ~/.my.cnf
-
 # The sed command is intentionally split with a hard line return for multiline output
-sed -i "$ s/$/{N;a ${my}
+sed "$ s/$/{N;a ${my}
 }" ~/.my.cnf
+
+# Backup website (Drupal 8) database (~/.my.cnf must exist and contain login credentials)
+mysqldump --defaults-group-suffix=$PROJECT --column-statistics=0 -h $SRC_DB $database | gzip > /opt/docker/swhub-$PROJECT/src/mysql/site-db.sql.gz
 
 # Create docker volumes
 docker volume create $PROJECT-drupal
