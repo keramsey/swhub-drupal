@@ -127,7 +127,7 @@ trusted_host_patterns+="\];"
 # 1st TRUSTED_HOST: '^test\.swclimatehub\.info$',
 # 2nd TRUSTED_HOST: '^test\.jornada-swhub\.nmsu\.edu$',
 
-# The sed command is intentionally split with a hard line return to create seperate lines
+# The sed command is intentionally split with a hard line return for multiline output
 sed -i "/\ \*\ @see\ https:\/\/www\.drupal\.org\/docs\/installing-drupal\/trusted-host-settings/{N;a ${trusted_host_patterns}
 }" /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php
 
@@ -151,7 +151,7 @@ sed -i "s/9-apache/9-${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/D
 
 # Build config file input
 my="[mysqldump${PROJECT}]\n"
-my+="user=${user}\n"
+my+="user=${username}\n"
 my+="password=${password}\n"
 my+="port=${port}/n"
 my+="/n"
@@ -160,7 +160,11 @@ my+="user=${user}/n"
 my+="password=${password}"
 
 # Append 2 sections to end of ~/.my.cnf
-echo ${my} >> ~/.my.cnf
+#echo ${my} >> ~/.my.cnf
+
+# The sed command is intentionally split with a hard line return for multiline output
+sed -i "$ s/$/{N;a ${my}
+}" ~/.my.cnf
 
 # Create docker volumes
 docker volume create $PROJECT-drupal
