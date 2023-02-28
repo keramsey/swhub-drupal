@@ -30,7 +30,7 @@ PROJECT_URL=${PROJECT}.${SERVER}
 # USE $DOMAIN FOR PRI_DOMAIN_PATTERN AND USE $PROJECT.$SERVER FOR SEC_DOMAIN_PATTERN
 #PRI_DOMAIN_PATTERN=test\.swclimatehub\.info
 PRI_DOMAIN_PATTERN=${DOMAIN//./\\.}
-SEC_DOMAIN_PATTERN=test\\\.jornada-swhub\\\.nmsu\\\.edu
+SEC_DOMAIN_PATTERN=test\.jornada-swhub\.nmsu\.edu
 #SEC_DOMAIN_PATTERN=$PROJECT\\\.${SERVER//./\\.}
 
 # Store current working directory
@@ -146,7 +146,7 @@ trusted_host_patterns+="\];"
 # 1st TRUSTED_HOST: '^test\.swclimatehub\.info$',
 # 2nd TRUSTED_HOST: '^test\.jornada-swhub\.nmsu\.edu$',
 # The sed command is intentionally split with a newline
-sed -i "/\ \*\ @see\ https:\/\/www\.drupal\.org\/docs\/installing-drupal\/trusted-host-settings/{N;a ${trusted_host_patterns}
+sed -i "|\ \*\ @see\ https:\/\/www\.drupal\.org\/docs\/installing-drupal\/trusted-host-settings|{N;a ${trusted_host_patterns}
 }" /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php
 # Delete and replace D7 settings.php file
 rm -f /opt/docker/swhub-$PROJECT/src/site/default/settings.php
