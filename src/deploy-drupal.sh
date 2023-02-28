@@ -28,9 +28,9 @@ PROJECT_URL=${PROJECT}.${SERVER}
 # NEED TO AUTOMATICALLY INSERT BACKSLASHES USING $PROJECT, $SERVER AND $DOMAIN USING SED
 #
 # USE $DOMAIN FOR PRI_DOMAIN_PATTERN AND USE $PROJECT.$SERVER FOR SEC_DOMAIN_PATTERN
-PRI_DOMAIN_PATTERN=temp\.swclimatehub\.info
+#PRI_DOMAIN_PATTERN=test\.swclimatehub\.info
 PRI_DOMAIN_PATTERN=${DOMAIN//./\\.}
-SEC_DOMAIN_PATTERN=temp\.jornada-swhub\.nmsu\.edu
+SEC_DOMAIN_PATTERN=test\.jornada-swhub\.nmsu\.edu
 #SEC_DOMAIN_PATTERN=$PROJECT\\\.${SERVER//./\\.}
 
 # Store current working directory
@@ -134,6 +134,10 @@ sed -i "s/\$settings\['hash_salt'\]\ \=\ '';/\$settings\['hash_salt'\]\ \=\ ${ha
 sed -i "s/# \$settings\['file_private_path'\]\ \=\ '';/\$settings\['file_private_path'\]\ \=\ '\/opt\/drupal\/private\/files'\;/" /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php
 sed -i "s/# \$settings\['file_temp_path'\]\ \=\ '\/tmp';/\$settings\['file_temp_path'\]\ \=\ '\/opt\/drupal\/private\/temp'\;/" /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php
 # Build replace string
+#trusted_host_patterns="\$settings\['trusted_host_patterns'\]\ \=\ \[\n"
+#trusted_host_patterns+="\ \ '\^${PRI_DOMAIN_PATTERN}\$',\n"
+#trusted_host_patterns+="\ \ '\^${SEC_DOMAIN_PATTERN}\$',\n"
+#trusted_host_patterns+="\];"
 trusted_host_patterns="\$settings\['trusted_host_patterns'\]\ \=\ \[\n"
 trusted_host_patterns+="\ \ '\^${PRI_DOMAIN_PATTERN}\$',\n"
 trusted_host_patterns+="\ \ '\^${SEC_DOMAIN_PATTERN}\$',\n"
