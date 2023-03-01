@@ -155,7 +155,9 @@ my+="port=$(echo ${port//\'})"
 my+="\n"
 my+="[mysql${PROJECT}]\n"
 my+="user=$(echo ${username//\'})\n"
-my+="password=$(echo ${password//\'})"
+my+="password=$(echo ${password//\'})\n"
+my+="host=$(echo ${SRC_DB//\'})\n"
+my+="port=$(echo ${port//\'})"
 
 # Create or overwrite database config file in user's home directory to allow dumping of source database
 echo -e $my > ~/.my.cnf
