@@ -148,7 +148,7 @@ sed -i "s/9-apache/${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Doc
 
 # Build config file variable using bash variable substitution
 my="[mysqldump${PROJECT}]\n"
-my+="user="$(echo ${username//\'})\n"
+my+="user=$(echo ${username//\'})\n"
 my+="password=$(echo ${password//\'})\n"
 my+="port=$(echo ${port//\'})"
 my+="\n"
