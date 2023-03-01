@@ -147,7 +147,7 @@ echo "MYSQL_PASSWORD="$password >> /opt/docker/swhub-$PROJECT/.secrets/.env
 sed -i "s/9-apache/${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Dockerfile
 
 # Build config file variable using bash variable substitution
-my="[mysqldump${PROJECT}]\n"
+my="[client${PROJECT}]\n"
 my+="user=$(echo ${username//\'})\n"
 my+="database=$(echo ${database//\'})\n"
 my+="password=$(echo ${password//\'})\n"
