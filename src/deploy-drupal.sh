@@ -149,17 +149,17 @@ sed -i "s/9-apache/${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Doc
 # Build config file variable using bash variable substitution
 my="[client${PROJECT}]\n"
 my+="user=$(echo ${username//\'})\n"
-my+="database=$(echo ${database//\'})\n"
 my+="password=$(echo ${password//\'})\n"
 my+="host=$(echo ${SRC_DB//\'})\n"
 my+="port=$(echo ${port//\'})"
 my+="\n"
-#my+="[mysql${PROJECT}]\n"
+#my="[client${PROJECT}]\n"
 #my+="user=$(echo ${username//\'})\n"
-#my+="password=$(echo ${password//\'})\n"
 #my+="database=$(echo ${database//\'})\n"
+#my+="password=$(echo ${password//\'})\n"
 #my+="host=$(echo ${SRC_DB//\'})\n"
 #my+="port=$(echo ${port//\'})"
+#my+="\n"
 
 # Create or overwrite database config file in user's home directory to allow dumping of source database
 echo -e $my > ~/.my.cnf
