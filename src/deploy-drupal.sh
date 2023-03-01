@@ -7,9 +7,10 @@
 #   - DO NOT USE TRAILING SLASHES IN SRC_PATH -
 #
 # Example command line (single line):
-#   SRC_DB=jornada-src SRC_PATH=/drupal/drupa-8.9.20/sites/default SRC_USER=username PROJECT=test SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash /opt/docker/deploy-drupal.sh
+#   DOCKER_ACCOUNT=landscapedatacommons SRC_DB=jornada-src SRC_PATH=/drupal/drupa-8.9.20/sites/default SRC_USER=username PROJECT=test SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash /opt/docker/deploy-drupal.sh
 #
 # Description of variables passed in command line used to run this script:
+#   - DOCKER_ACCOUNT = Docker Hub user account
 #   - SRC_DB = source database host
 #   - SRC_PATH = source sites path (without trailing slash) on source host (not necessarily database host)
 #   - SRC_USER = user for authenticating to copy source files and folders
@@ -186,7 +187,7 @@ docker network create --driver=overlay $PROJECT-net
 cd /opt/docker/swhub-$PROJECT
 
 # Build image
-#docker build --no-cache -t landscapedatacommons/swhub-$PROJECT:$PROJECT_TAG .
+docker build --no-cache -t $DOCKER_ACCOUNT/swhub-$PROJECT:$PROJECT_TAG .
 docker login
 #docker push landscapedatacommons/swhub-$PROJECT:$PROJECT_TAG
 # NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
