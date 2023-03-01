@@ -3,9 +3,23 @@
 # Script to update and deploy Drupal 8 website to docker stack services on Drupal 9
 # ***************************************************************************************
 #
-# Must include prefixes (~ARGUMENTS) in command line calling this script
-#   e.g., 'SRC_DB=jornada-src PROJECT=test SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash /opt/docker/deploy-drupal.sh'
+# Must pass this script variables in the command line used to run this script
+#   - DO NOT USE TRAILING SLASHES IN SRC_PATH -
 #
+# Example command line (single line):
+#   SRC_DB=jornada-src SRC_PATH=/drupal/drupa-8.9.20/sites/default SRC_USER=username PROJECT=test SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash /opt/docker/deploy-drupal.sh
+#
+# Description of variables passed in command line used to run this script:
+#   - SRC_DB = source database host
+#   - SRC_PATH = source sites path (without trailing slash) on source host (not necessarily database host)
+#   - SRC_USER = user for authenticating to copy source files and folders
+#   - PROJECT = project subdomain (e.g., dust if migrating dust.swclimatehub.info)
+#   - SERVER = docker swarm node server (FQDN)
+#   - DOMAIN = production website domain (FQDN)
+#   - DRUPAL_VER = drupal version for drupal stack service (e.g., 9.5.3)
+#   - PROJECT_TAG = desired tag for pushing image to Docker Hub
+#
+# Build testing URL using host server instead of production URL
 PROJECT_URL=${PROJECT}.${SERVER}
 
 # Store current working directory
@@ -30,7 +44,7 @@ mv default.settings.php /opt/docker/swhub-$PROJECT/src/site/default/default.sett
 rm -f drupal-$DRUPAL_VER.tar.gz
 
 # Copy website site folder
-scp -r root@jornada-climhub:/drupal8/drupal-8.9.20/sites/dust.swclimatehub.info/* /opt/docker/swhub-$PROJECT/src/site/default/
+scp -r $SRC_USER@$SRC_DB:$SRC_PATH/* /opt/docker/swhub-$PROJECT/src/site/default/
 
 # Store database setting values
 cd /opt/docker/swhub-$PROJECT/src/site/default
@@ -153,20 +167,12 @@ my+="password=$(echo ${password//\'})\n"
 my+="host=$(echo ${SRC_DB//\'})\n"
 my+="port=$(echo ${port//\'})"
 my+="\n"
-#my="[client${PROJECT}]\n"
-#my+="user=$(echo ${username//\'})\n"
-#my+="database=$(echo ${database//\'})\n"
-#my+="password=$(echo ${password//\'})\n"
-#my+="host=$(echo ${SRC_DB//\'})\n"
-#my+="port=$(echo ${port//\'})"
-#my+="\n"
 
 # Create or overwrite database config file in user's home directory to allow dumping of source database
 echo -e $my > ~/.my.cnf
 
 # Backup website (Drupal 8) database (~/.my.cnf must exist and contain login credentials)
 mysqldump --defaults-group-suffix=$PROJECT --column-statistics=0 ${database//\'}| gzip > /opt/docker/swhub-$PROJECT/src/mysql/site-db.sql.gz
-#mysqldump --defaults-group-suffix=$PROJECT --column-statistics=0 -h $SRC_DB $database | gzip > /opt/docker/swhub-$PROJECT/src/mysql/site-db.sql.gz
 
 # Create docker volumes
 docker volume create $PROJECT-drupal
