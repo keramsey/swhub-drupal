@@ -150,10 +150,10 @@ sed -i "s/9-apache/${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Doc
 my="[mysqldump${PROJECT}]\n"
 my+="user=${username}\n"
 my+="password=${password}\n"
-my+="port=${port}/n"
-my+="/n"
-my+="[mysql${PROJECT}]/n"
-my+="user=${user}/n"
+my+="port=${port}\n"
+my+="\n"
+my+="[mysql${PROJECT}]\n"
+my+="user=${user}\n"
 my+="password=${password}"
 
 # The sed command is intentionally split with a hard line return for multiline output
