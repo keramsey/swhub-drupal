@@ -148,7 +148,7 @@ sed -i "s/9-apache/${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Doc
 
 # Build config file input
 my="[mysqldump${PROJECT}]\n"
-my+="user=$(echo sed \'s\/\'${username}\'\/g\')\n"
+my+="user=$(echo ${username}\n"
 my+="password=$(sed 's/'${password}'/g')\n"
 my+="port=$(sed 's/'${port}'/g')\n"
 my+="\n"
