@@ -146,18 +146,15 @@ echo "MYSQL_PASSWORD="$password >> /opt/docker/swhub-$PROJECT/.secrets/.env
 # Update Dockerfile
 sed -i "s/9-apache/${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Dockerfile
 
-# Build config file input
+# Build config file variable using bash variable substitution
 my="[mysqldump${PROJECT}]\n"
-
-#  sed -e 's/^"//' -e 's/"$//' <<<"$var1"
-
-my+="user="$(sed \'s\/\^\\\'\/\/\' \'s\/\\'\$\/\' \<\<\<\"${username})"\n"
-my+="password=$(echo sed \'s\/\^\\\'\/\/\' \<\<\<"${password}")\n"
+my+="user="$(echo ${username//\'})\n"
+my+="password=$(echo ${password//\'})\n"
 my+="port=$(echo ${port//\'})"
 my+="\n"
 my+="[mysql${PROJECT}]\n"
-my+="user=$(sed 's/'${username}'/g')\n"
-my+="password=$(sed 's/'${password}'/g')"
+my+="user=$(echo ${username//\'})\n"
+my+="password=$(echo ${password//\'})"
 
 # Create or overwrite database config file in user's home directory to allow dumping of source database
 echo -e $my > ~/.my.cnf
