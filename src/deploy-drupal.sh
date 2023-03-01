@@ -152,7 +152,7 @@ mv /opt/docker/swhub-$PROJECT/swhub-drupal.yml /opt/docker/swhub-$PROJECT/swhub-
 
 # Update renamed docker-compose.yml file using PROJECT
 sed -i "s/test/${PROJECT}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
-sed -i "s/=php8.1//" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
+sed -i "s/-php8\.1//" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
 
 # Create .secrets/.env file for configuring mysql container
 echo "MYSQL_DATABASE="$database >> /opt/docker/swhub-$PROJECT/.secrets/.env
@@ -185,7 +185,7 @@ docker volume create $PROJECT-mysql-data
 docker network create --driver=overlay $PROJECT-net
 
 # Change directory
-cd /opt/docker/swhub-$PROJECT/drupal
+cd /opt/docker/swhub-$PROJECT
 
 # Build image
 docker build --no-cache -t $DOCKER_ACCOUNT/swhub-$PROJECT:$PROJECT_TAG .
