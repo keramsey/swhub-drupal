@@ -149,21 +149,23 @@ sed -i "s/9-apache/${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Doc
 # Build config file variable using bash variable substitution
 my="[mysqldump${PROJECT}]\n"
 my+="user=$(echo ${username//\'})\n"
+my+="database=$(echo ${database//\'})\n"
 my+="password=$(echo ${password//\'})\n"
 my+="host=$(echo ${SRC_DB//\'})\n"
 my+="port=$(echo ${port//\'})"
 my+="\n"
-my+="[mysql${PROJECT}]\n"
-my+="user=$(echo ${username//\'})\n"
-my+="password=$(echo ${password//\'})\n"
-my+="host=$(echo ${SRC_DB//\'})\n"
-my+="port=$(echo ${port//\'})"
+#my+="[mysql${PROJECT}]\n"
+#my+="user=$(echo ${username//\'})\n"
+#my+="password=$(echo ${password//\'})\n"
+#my+="database=$(echo ${database//\'})\n"
+#my+="host=$(echo ${SRC_DB//\'})\n"
+#my+="port=$(echo ${port//\'})"
 
 # Create or overwrite database config file in user's home directory to allow dumping of source database
 echo -e $my > ~/.my.cnf
 
 # Backup website (Drupal 8) database (~/.my.cnf must exist and contain login credentials)
-mysqldump --defaults-group-suffix=$PROJECT --column-statistics=0 -h ${SRC_DB//\'}' ${database//\'}| gzip > /opt/docker/swhub-$PROJECT/src/mysql/site-db.sql.gz
+mysqldump --defaults-group-suffix=$PROJECT --column-statistics=0| gzip > /opt/docker/swhub-$PROJECT/src/mysql/site-db.sql.gz
 #mysqldump --defaults-group-suffix=$PROJECT --column-statistics=0 -h $SRC_DB $database | gzip > /opt/docker/swhub-$PROJECT/src/mysql/site-db.sql.gz
 
 # Create docker volumes
