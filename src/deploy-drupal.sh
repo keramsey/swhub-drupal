@@ -163,7 +163,7 @@ my+="port=$(echo ${port//\'})"
 echo -e $my > ~/.my.cnf
 
 # Backup website (Drupal 8) database (~/.my.cnf must exist and contain login credentials)
-mysqldump --defaults-group-suffix=$PROJECT --column-statistics=0 | gzip > /opt/docker/swhub-$PROJECT/src/mysql/site-db.sql.gz
+mysqldump --defaults-group-suffix=$PROJECT --column-statistics=0 -h ${SRC_DB//\'}' ${database//\'}| gzip > /opt/docker/swhub-$PROJECT/src/mysql/site-db.sql.gz
 #mysqldump --defaults-group-suffix=$PROJECT --column-statistics=0 -h $SRC_DB $database | gzip > /opt/docker/swhub-$PROJECT/src/mysql/site-db.sql.gz
 
 # Create docker volumes
