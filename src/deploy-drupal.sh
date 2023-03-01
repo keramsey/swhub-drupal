@@ -151,6 +151,7 @@ my="[mysqldump${PROJECT}]\n"
 my+="user=$(echo ${username//\'})\n"
 my+="password=$(echo ${password//\'})\n"
 my+="port=$(echo ${port//\'})"
+my+="host=$(echo ${SRC_DB//\'})"
 my+="\n"
 my+="[mysql${PROJECT}]\n"
 my+="user=$(echo ${username//\'})\n"
@@ -160,7 +161,8 @@ my+="password=$(echo ${password//\'})"
 echo -e $my > ~/.my.cnf
 
 # Backup website (Drupal 8) database (~/.my.cnf must exist and contain login credentials)
-echo "mysqldump --defaults-group-suffix=$PROJECT --column-statistics=0 -h $SRC_DB $database | gzip > /opt/docker/swhub-$PROJECT/src/mysql/site-db.sql.gz"
+mysqldump --defaults-group-suffix=$PROJECT --column-statistics=0 | gzip > /opt/docker/swhub-$PROJECT/src/mysql/site-db.sql.gz
+#mysqldump --defaults-group-suffix=$PROJECT --column-statistics=0 -h $SRC_DB $database | gzip > /opt/docker/swhub-$PROJECT/src/mysql/site-db.sql.gz
 
 # Create docker volumes
 docker volume create $PROJECT-drupal
