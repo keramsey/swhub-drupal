@@ -23,6 +23,7 @@ Note: Add one line  "MYSQL_ROOT_PASSWORD='<password>'" (without double quotes), 
 SRC_DB=jornada-src SRC_PATH=/drupal/drupa-8.9.20/sites/default SRC_USER=username PROJECT=test SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash /opt/docker/deploy-drupal.sh
 ```
 Notes:
+- DOCKER_ACCOUNT = Docker Hub user account
 - SRC_DB = source database host
 - SRC_PATH = source sites path (without trailing slash) on source host (not necessarily database host)
 - SRC_USER = user for authenticating to copy source files and folders
