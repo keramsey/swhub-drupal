@@ -152,7 +152,7 @@ my="[mysqldump${PROJECT}]\n"
 #  sed -e 's/^"//' -e 's/"$//' <<<"$var1"
 
 my+="user=$(sed -e \'s\/\^\'\/\/\' -e \'s\/\\\'\$\/\/\' \<\<\< ${username})\n"
-my+="password=$(echo sed \'s\/\^\'\/\/' \<\<\<\="${password}"\/g\')\n"
+my+="password=$(echo sed \'s\/\^\'\/\/'\/g\' <<<"${password}")\n"
 my+="port=$(sed 's/'${port}'/g')\n"
 my+="\n"
 my+="[mysql${PROJECT}]\n"
