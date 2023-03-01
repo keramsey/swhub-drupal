@@ -148,13 +148,13 @@ sed -i "s/9-apache/${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Doc
 
 # Build config file input
 my="[mysqldump${PROJECT}]\n"
-my+="user=$(sed '/'\'${username}\''/')\n"
-my+="password=$(sed '/'\'${password}\''/')\n"
-my+="port=$(sed '/'\'${port}\''/')\n"
+my+="user=$(sed 's/'\'${username}\''/g')\n"
+my+="password=$(sed 's/'\'${password}\''/g')\n"
+my+="port=$(sed 's/'\'${port}\''/g')\n"
 my+="\n"
 my+="[mysql${PROJECT}]\n"
-my+="user=$(sed '/'\'${username}\''/')\n"
-my+="password=$(sed '/'\'${password}\''/')"
+my+="user=$(sed 's/'\'${username}\''/g')\n"
+my+="password=$(sed 's/'\'${password}\''/g')"
 
 # Create or overwrite database config file in user's home directory to allow dumping of source database
 echo -e $my > ~/.my.cnf
