@@ -189,7 +189,7 @@ cd /opt/docker/swhub-$PROJECT
 # Build image
 docker build --no-cache -t $DOCKER_ACCOUNT/swhub-$PROJECT:$PROJECT_TAG .
 docker login
-#docker push landscapedatacommons/swhub-$PROJECT:$PROJECT_TAG
+docker push $DOCKER_ACCOUNT/swhub-$PROJECT:$PROJECT_TAG
 # NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
 # Deploy stack
 #DOMAIN=$dust.swclimatehub.info PORT=8070 docker stack deploy -c swhub-$PROJECT.yml swhub-$PROJECT
