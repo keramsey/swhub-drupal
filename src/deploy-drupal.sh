@@ -153,7 +153,7 @@ my+="password=${password}\n"
 my+="port=${port}\n"
 my+="\n"
 my+="[mysql${PROJECT}]\n"
-my+="user=${user}\n"
+my+="user=${username}\n"
 my+="password=${password}"
 
 # Create or overwrite database config file for dumping source database
