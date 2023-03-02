@@ -196,14 +196,14 @@ docker push ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}:${PROJECT_TAG}
 
 # Determine the container id of Drupal service
 container_id=$(docker ps --filter "label=com.docker.swarm.service.name=swhub-${PROJECT}_drupal-${PROJECT}")
-container_id=(echo ${container_id:0:12})
+container_id=${container_id:0:12}
 
 # Deploy stack
 # NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
 DOMAIN=${DOMAIN} PORT=${SERVICE_PORT} docker stack deploy -c swhub-${PROJECT}.yml swhub-${PROJECT}
 
 # Pause script processing to allow stack services to come up completely
-echo "Waiting 120 seconds for stack services to come up completely before proceeding"
+echo "Waiting 120 seconds for stack services to come up completely before proceeding..."
 sleep 120
 # Run update-drush.sh to complete Drupal setup within container (stack service)
 docker exec -it ${container_id} sh ./update-drush.sh
