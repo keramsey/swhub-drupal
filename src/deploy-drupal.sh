@@ -158,7 +158,7 @@ sed -i "s/loadbalancer\.server\.port=80/loadbalancer.server.port=${SERVICE_PORT}
 
 # Create .secrets/.env file for configuring mysql container
 echo "MYSQL_DATABASE="${database//\'} >> /opt/docker/swhub-$PROJECT/.secrets/.env
-echo "MYSQL_USERNAME="${username//\'} >> /opt/docker/swhub-$PROJECT/.secrets/.env
+echo "MYSQL_USER="${username//\'} >> /opt/docker/swhub-$PROJECT/.secrets/.env
 echo "MYSQL_PASSWORD="${password//\'} >> /opt/docker/swhub-$PROJECT/.secrets/.env
 
 # Update Dockerfile
