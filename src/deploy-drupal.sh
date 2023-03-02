@@ -156,9 +156,9 @@ sed -i "s/test/${PROJECT}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
 sed -i "s/:9\.5\.3-php8\.1-apache/-${PROJECT}:${PROJECT_TAG}/" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
 
 # Create .secrets/.env file for configuring mysql container
-echo "MYSQL_DATABASE="$database >> /opt/docker/swhub-$PROJECT/.secrets/.env
-echo "MYSQL_USERNAME="$username >> /opt/docker/swhub-$PROJECT/.secrets/.env
-echo "MYSQL_PASSWORD="$password >> /opt/docker/swhub-$PROJECT/.secrets/.env
+echo "MYSQL_DATABASE="${database//\'} >> /opt/docker/swhub-$PROJECT/.secrets/.env
+echo "MYSQL_USERNAME="${username//\'} >> /opt/docker/swhub-$PROJECT/.secrets/.env
+echo "MYSQL_PASSWORD="${password//\'} >> /opt/docker/swhub-$PROJECT/.secrets/.env
 
 # Update Dockerfile
 sed -i "s/9-apache/${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Dockerfile
