@@ -29,7 +29,7 @@ services:
     volumes:
       - test-drupal:/opt/drupal
       - test-drupal-data:/var/www/html
-      - /opt/docker/swhub-test/mysql:/var/mysql/backups
+      - /opt/docker/swhub-test/src/mysql:/var/mysql/backups
     deploy:
       labels:
         - "traefik.enable=true"
