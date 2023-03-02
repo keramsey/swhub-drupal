@@ -7,9 +7,10 @@
 #   - DO NOT USE TRAILING SLASHES IN SRC_PATH -
 #
 # Example command line (single line):
-#   DOCKER_ACCOUNT=landscapedatacommons SRC_DB=jornada-src SRC_PATH=/drupal/drupa-8.9.20/sites/default SRC_USER=username PROJECT=test SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash /opt/docker/deploy-drupal.sh
+#   SERVICE_PORT=8070 DOCKER_ACCOUNT=landscapedatacommons SRC_DB=jornada-src SRC_PATH=/drupal/drupa-8.9.20/sites/default SRC_USER=username PROJECT=test SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash /opt/docker/deploy-drupal.sh
 #
 # Description of variables passed in command line used to run this script:
+#   - SERVICE_PORT = loadbalancer port for traefik
 #   - DOCKER_ACCOUNT = Docker Hub user account
 #   - SRC_DB = source database host
 #   - SRC_PATH = source sites path (without trailing slash) on source host (not necessarily database host)
@@ -174,26 +175,31 @@ my+="\n"
 echo -e $my > ~/.my.cnf
 
 # Backup website (Drupal 8) database (~/.my.cnf must exist and contain login credentials)
-mysqldump --defaults-group-suffix=$PROJECT --column-statistics=0 ${database//\'}| gzip > /opt/docker/swhub-$PROJECT/src/mysql/site-db.sql.gz
+mysqldump --defaults-group-suffix=${PROJECT} --column-statistics=0 ${database//\'}| gzip > /opt/docker/swhub-${PROJECT}/src/mysql/site-db.sql.gz
 
 # Create docker volumes
-docker volume create $PROJECT-drupal
-docker volume create $PROJECT-drupal-data
-docker volume create $PROJECT-mysql-data
+docker volume create ${PROJECT}-drupal
+docker volume create ${PROJECT}-drupal-data
+docker volume create ${PROJECT}-mysql-data
 
 # Create docker network
-docker network create --driver=overlay $PROJECT-net
+docker network create --driver=overlay ${PROJECT}-net
 
 # Change directory
-cd /opt/docker/swhub-$PROJECT
+cd /opt/docker/swhub-${PROJECT}
 
 # Build image
 docker-compose -f swhub-${PROJECT}.yml build --no-cache --force-rm
 docker login
-#docker push $DOCKER_ACCOUNT/swhub-$PROJECT:$PROJECT_TAG
+docker push ${DOCKER_ACCOUNT}/swhub-${PROJECT}:${PROJECT_TAG}
 # NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
 # Deploy stack
-#DOMAIN=$dust.swclimatehub.info PORT=8070 docker stack deploy -c swhub-$PROJECT.yml swhub-$PROJECT
+DOMAIN=${DOMAIN} PORT=${SERVICE_PORT} docker stack deploy -c swhub-${PROJECT}.yml swhub-${PROJECT}
+
+# Pause script processing to allow stack services to come up completely
+#sleep 90
+# Run update-drush.sh to complete Drupal setup within container (stack service)
+#docker service swhub-${PROJECT}_drupal-${PROJECT}
 
 # Change to original directory
 cd $ORIGINAL_DIR
