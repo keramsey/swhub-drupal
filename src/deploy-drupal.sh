@@ -154,6 +154,7 @@ mv /opt/docker/swhub-$PROJECT/swhub-drupal.yml /opt/docker/swhub-$PROJECT/swhub-
 # Update renamed docker-compose.yml file using PROJECT
 sed -i "s/test/${PROJECT}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
 sed -i "s/:9\.5\.3-php8\.1-apache/-${PROJECT}:${PROJECT_TAG}/" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
+sed -i "s/loadbalancer\.server\.port=80/loadbalancer.server.port=${SERVICE_PORT}/" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
 
 # Create .secrets/.env file for configuring mysql container
 echo "MYSQL_DATABASE="${database//\'} >> /opt/docker/swhub-$PROJECT/.secrets/.env
@@ -192,13 +193,14 @@ cd /opt/docker/swhub-${PROJECT}
 docker-compose -f swhub-${PROJECT}.yml build --no-cache --force-rm
 docker login
 docker push ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}:${PROJECT_TAG}
-# NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
+
 # Deploy stack
-echo "DOMAIN=${DOMAIN} PORT=${SERVICE_PORT} docker stack deploy -c swhub-${PROJECT}.yml swhub-${PROJECT}"
+# NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
+DOMAIN=${DOMAIN} PORT=${SERVICE_PORT} docker stack deploy -c swhub-${PROJECT}.yml swhub-${PROJECT}
 
 # Pause script processing to allow stack services to come up completely
-#echo "Waiting 90 seconds for stack services to come up completely"
-#sleep 90
+#echo "Waiting 120 seconds for stack services to come up completely"
+#sleep 120
 # Run update-drush.sh to complete Drupal setup within container (stack service)
 #docker service swhub-${PROJECT}_drupal-${PROJECT}
 
