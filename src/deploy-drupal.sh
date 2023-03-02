@@ -202,7 +202,7 @@ DOMAIN=${DOMAIN} PORT=${SERVICE_PORT} docker stack deploy -c swhub-${PROJECT}.ym
 echo "Waiting 120 seconds for stack services to come up completely before proceeding"
 sleep 120
 # Run update-drush.sh to complete Drupal setup within container (stack service)
-docker service swhub-${PROJECT}_drupal-${PROJECT}
+docker service swhub-${PROJECT}_drupal-${PROJECT} sh ./update-drush.sh
 
 # Change to original directory
 cd $ORIGINAL_DIR
