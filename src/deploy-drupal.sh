@@ -195,7 +195,7 @@ docker login
 docker push ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}:${PROJECT_TAG}
 
 # Determine the container id of Drupal service
-container_id=$(docker ps --filter "label=com.docker.swarm.service.name=swhub-${PROJECT}_drupal-${PROJECT}")
+container_id=$(docker ps --filter "label=com.docker.swarm.service.name=swhub-${PROJECT}_drupal-${PROJECT}" | head -2 | tail -1)
 container_id=${container_id:0:12}
 
 # Deploy stack
