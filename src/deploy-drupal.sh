@@ -194,9 +194,10 @@ docker login
 docker push ${DOCKER_ACCOUNT}/swhub-${PROJECT}:${PROJECT_TAG}
 # NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
 # Deploy stack
-DOMAIN=${DOMAIN} PORT=${SERVICE_PORT} docker stack deploy -c swhub-${PROJECT}.yml swhub-${PROJECT}
+echo "DOMAIN=${DOMAIN} PORT=${SERVICE_PORT} docker stack deploy -c swhub-${PROJECT}.yml swhub-${PROJECT}"
 
 # Pause script processing to allow stack services to come up completely
+#echo "Waiting 90 seconds for stack services to come up completely"
 #sleep 90
 # Run update-drush.sh to complete Drupal setup within container (stack service)
 #docker service swhub-${PROJECT}_drupal-${PROJECT}
