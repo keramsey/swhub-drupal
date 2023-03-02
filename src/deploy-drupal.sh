@@ -188,7 +188,7 @@ docker network create --driver=overlay $PROJECT-net
 cd /opt/docker/swhub-$PROJECT
 
 # Build image
-echo "docker build --no-cache -t ${DOCKER_ACCOUNT}/swhub-${PROJECT}:${PROJECT_TAG} ./drupal"
+docker-compose -f swhub-${PROJECT}.yml build --no-cache -t ${DOCKER_ACCOUNT}/swhub-${PROJECT}:${PROJECT_TAG} .
 docker login
 #docker push $DOCKER_ACCOUNT/swhub-$PROJECT:$PROJECT_TAG
 # NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
