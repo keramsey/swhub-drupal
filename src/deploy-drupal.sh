@@ -191,7 +191,7 @@ cd /opt/docker/swhub-${PROJECT}
 # Build image
 docker-compose -f swhub-${PROJECT}.yml build --no-cache --force-rm
 docker login
-docker push ${DOCKER_ACCOUNT}/swhub-${PROJECT}:${PROJECT_TAG}
+docker push ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}:${PROJECT_TAG}
 # NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
 # Deploy stack
 echo "DOMAIN=${DOMAIN} PORT=${SERVICE_PORT} docker stack deploy -c swhub-${PROJECT}.yml swhub-${PROJECT}"
