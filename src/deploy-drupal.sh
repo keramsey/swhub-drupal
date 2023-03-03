@@ -211,9 +211,12 @@ sleep 120
 # Run update-drush.sh to complete Drupal setup within container (stack service) if container_id is not empty
 if [ ! -z ${container_id} ]
 then
+  echo "Container ID: ${container_id}"
+  echo "Containers: ${containers}"
   docker exec -it ${container_id} sh ./update-drush.sh
 else
   echo "Missing variable: container_id"
+  echo "Containers: ${containers}"
 fi
 # Change to original directory
 cd $ORIGINAL_DIR
