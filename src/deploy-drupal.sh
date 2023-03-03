@@ -195,15 +195,15 @@ docker-compose -f swhub-${PROJECT}.yml build --no-cache --force-rm
 docker login
 docker push ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}:${PROJECT_TAG}
 
+# Deploy stack
+# NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
+DOMAIN=${DOMAIN} PORT=${SERVICE_PORT} docker stack deploy -c swhub-${PROJECT}.yml swhub-${PROJECT}
+
 # Determine the container id of Drupal service
 #   skip first line that contains header
 containers=$(docker ps --filter "label=com.docker.swarm.service.name=swhub-${PROJECT}_drupal-${PROJECT}" | sed -n '2p')
 #   only first 12 characters are the container id
 container_id="${containers:0:12}"
-
-# Deploy stack
-# NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
-DOMAIN=${DOMAIN} PORT=${SERVICE_PORT} docker stack deploy -c swhub-${PROJECT}.yml swhub-${PROJECT}
 
 # Pause script processing to allow stack services to come up completely
 echo "Waiting 120 seconds for stack services to come up completely before proceeding..."
