@@ -200,7 +200,7 @@ docker push ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}:${PROJECT_TAG}
 container_id=$(docker ps --filter "label=com.docker.swarm.service.name=swhub-${PROJECT}_drupal-${PROJECT}")
 echo "$container_id"
 #   only first 12 characters are the container id
-container_id=${container_id:0:12} | awk 'NR==2'
+container_id=$(echo ${container_id:0:12} | awk 'NR==2')
 echo "$container_id"
 
 # Deploy stack
