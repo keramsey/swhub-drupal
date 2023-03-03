@@ -195,6 +195,15 @@ docker-compose -f swhub-${PROJECT}.yml build --no-cache --force-rm
 docker login
 docker push ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}:${PROJECT_TAG}
 
+# Remove previous container if it already exists
+containers=$(docker ps --filter "label=com.docker.swarm.service.name=swhub-${PROJECT}_drupal-${PROJECT}" | sed -n '2p')
+if [ ! -z "${containers}" ]
+then
+  docker container rm ${containers}
+  echo "${containers}"
+  containers=''
+fi
+
 # Deploy stack
 # NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
 DOMAIN=${DOMAIN} PORT=${SERVICE_PORT} docker stack deploy -c swhub-${PROJECT}.yml swhub-${PROJECT}
