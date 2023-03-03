@@ -106,7 +106,8 @@ do
 done < settings.php
 
 # Build database settings string
-database_settings="\$databases\[\];\n\$databases\[\'default\'\]\[\'default\'\]\ \=\ \[\n\ \ \'database\'\ \=\>\ ${database}\,\n"
+#database_settings="\$databases\[\];\n\$databases\[\'default\'\]\[\'default\'\]\ \=\ \[\n\ \ \'database\'\ \=\>\ ${database}\,\n"
+database_settings="\$databases\[\'default\'\]\[\'default\'\]\ \=\ \[\n\ \ \'database\'\ \=\>\ ${database}\,\n"
 database_settings+="\ \ \'username\'\ \=>\ ${username}\,\n"
 database_settings+="\ \ \'password\'\ \=>\ ${password}\,\n"
 database_settings+="\ \ \'host\'\ \=>\ ${host}\,\n"
@@ -123,7 +124,7 @@ fi
 database_settings+="\ \ \'collation\'\ \=>\ ${collation}\,\n"
 database_settings+="\];"
 
-# Update database settings in D9 default.settings.php file
+# Update database and other settings in D9 default.settings.php file
 sed -i "s/\$databases = \[\];/${database_settings}/" /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php
 sed -i "s/# \$settings\['config_sync_directory'\]\ \=\ '\/directory\/outside\/webroot';/\$settings\['config_sync_directory'\]\ \=\ '\/opt\/drupal\/private\/config\/sync'\;/" /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php
 sed -i "s/\$settings\['hash_salt'\]\ \=\ '';/\$settings\['hash_salt'\]\ \=\ ${hash_salt}\;/" /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php
@@ -195,8 +196,12 @@ docker login
 docker push ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}:${PROJECT_TAG}
 
 # Determine the container id of Drupal service
-echo container_id=$(docker ps --filter "label=com.docker.swarm.service.name=swhub-${PROJECT}_drupal-${PROJECT}" | head -2 | tail -1)
-echo container_id=${container_id:0:12}
+#   skip first line containing table header
+container_id=$(docker ps --filter "label=com.docker.swarm.service.name=swhub-${PROJECT}_drupal-${PROJECT}" | head 2 | tail -1)
+#   only first 12 characters are the container id
+echo ${container_id}"\n"
+container_id=${container_id:0:12}
+echo ${container_id}"\n"
 
 # Deploy stack
 # NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
