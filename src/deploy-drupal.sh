@@ -198,10 +198,10 @@ docker push ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}:${PROJECT_TAG}
 # Determine the container id of Drupal service
 #   skip first line containing table header
 container_id=$(docker ps --filter "label=com.docker.swarm.service.name=swhub-${PROJECT}_drupal-${PROJECT}")
-echo "$container_id"
+echo "${container_id:0:12}"
 #   only first 12 characters are the container id
-container_id=$(echo ${container_id:0:12} | awk 'NR==2')
-echo "$container_id"
+#container_id=$(echo ${container_id:0:12} | awk 'NR==2')
+#echo "$container_id"
 
 # Deploy stack
 # NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
