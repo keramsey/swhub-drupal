@@ -208,8 +208,8 @@ DOMAIN=${DOMAIN} PORT=${SERVICE_PORT} docker stack deploy -c swhub-${PROJECT}.ym
 # Pause script processing to allow stack services to come up completely
 echo "Waiting 120 seconds for stack services to come up completely before proceeding..."
 sleep 120
-# Run update-drush.sh to complete Drupal setup within container (stack service)
-if [ -z ${container_id} ]
+# Run update-drush.sh to complete Drupal setup within container (stack service) if container_id is not empty
+if [ ! -z ${container_id} ]
 then
   docker exec -it ${container_id} sh ./update-drush.sh
 fi
