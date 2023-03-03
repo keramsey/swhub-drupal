@@ -212,6 +212,8 @@ sleep 120
 if [ ! -z ${container_id} ]
 then
   docker exec -it ${container_id} sh ./update-drush.sh
+else
+  echo "Missing variable: container_id"
 fi
 # Change to original directory
 cd $ORIGINAL_DIR
