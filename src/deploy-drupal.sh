@@ -197,7 +197,7 @@ docker push ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}:${PROJECT_TAG}
 
 # Remove stack if container previously exists
 container_exists=$(docker ps --filter "label=com.docker.swarm.service.name=swhub-${PROJECT}_drupal-${PROJECT}" | sed -n '2p')
-if [ ! -z "${containers}" ]
+if [ ! -z "${containers_exists}" ]
 then
   echo "Container exists: ${container_exists}"
   docker stack rm swhub-${PROJECT}
