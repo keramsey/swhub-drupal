@@ -199,7 +199,7 @@ then
   echo "Waiting 60 seconds for stack services to stop completely before proceeding..."  
   sleep 60
   # Remove image
-  old_image=docker images -q ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}
+  old_image=docker image -q ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}
   docker image rm "${old_image}"
   # Cleanup
   docker container prune -f
