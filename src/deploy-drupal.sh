@@ -194,9 +194,13 @@ container_exists=$(docker ps --filter "label=com.docker.swarm.service.name=swhub
 if [ ! -z "${container_exists}" ]
 then
   echo "Container exists: ${container_exists}"
+  # Remove existing stack
   docker stack rm swhub-${PROJECT}
-  docker container rm "${container_exists:0:12}"
+  # Wait 60 seconds for container to stop
   sleep 60
+  # Remove container
+  docker container rm "${container_exists:0:12}"
+  # Cleanup
   docker container prune
   docker image prune
 fi
