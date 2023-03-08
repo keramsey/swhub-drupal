@@ -202,9 +202,12 @@ then
   
   # Remove images
   old_image=docker images -q ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}
-  while IFS=$'/n' read -r line; do
-    docker image rm "${line}"
-  done <<< "${old_image}"
+  if [ ! -z "${old_image}" ]
+  then
+    while IFS=$'/n' read -r line; do
+      docker image rm "${line}"
+    done <<< "${old_image}"
+  fi
   
   # Cleanup
   docker container prune -f
