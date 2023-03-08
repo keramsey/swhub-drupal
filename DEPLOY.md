@@ -20,10 +20,9 @@ nano swhub-$PROJECT/.secrets/.env
 Note: Add one line  "MYSQL_ROOT_PASSWORD='<password>'" (without double quotes), substituting <password> with desired password used by a separate phpmyadmin stack
 5. Run script by modifying the following example (single command line) as needed
 ```sh
-SERVICE_PORT=8070 SRC_DB=jornada-src SRC_PATH=/drupal/drupa-8.9.20/sites/default SRC_USER=username PROJECT=test SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash /opt/docker/deploy-drupal.sh
+SRC_DB=jornada-src SRC_PATH=/drupal/drupa-8.9.20/sites/default SRC_USER=username PROJECT=test SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash /opt/docker/deploy-drupal.sh
 ```
 Notes:
-- SERVICE_PORT = loadbalancer port for traefik
 - DOCKER_ACCOUNT = Docker Hub user account
 - SRC_DB = source database host
 - SRC_PATH = source sites path (without trailing slash) on source host (not necessarily database host)
