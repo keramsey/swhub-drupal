@@ -197,7 +197,7 @@ then
   # Remove existing stack
   docker stack rm swhub-${PROJECT}
   # Wait 60 seconds for container to stop
-  echo "Waiting 60 seconds for stack services to come stop completely before proceeding..."  
+  echo "Waiting 60 seconds for stack services to stop completely before proceeding..."  
   sleep 60
   # Remove image
   old_image=docker images -q ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}
