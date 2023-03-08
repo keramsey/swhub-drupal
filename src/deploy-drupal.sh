@@ -195,6 +195,7 @@ if [ ! -z "${container_exists}" ]
 then
   echo "Container exists: ${container_exists}"
   docker stack rm swhub-${PROJECT}
+  docker image rm swhub-${PROJECT}_drupal-${PROJECT}
   sleep 20
   docker container prune -y
   docker image prune -y
@@ -207,7 +208,8 @@ docker push ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}:${PROJECT_TAG}
 
 # Deploy stack
 # NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
-DOMAIN=${DOMAIN} PORT=${SERVICE_PORT} docker stack deploy -c swhub-${PROJECT}.yml swhub-${PROJECT}
+#DOMAIN=${DOMAIN} PORT=${SERVICE_PORT} docker stack deploy -c swhub-${PROJECT}.yml swhub-${PROJECT}
+DOMAIN=${DOMAIN} docker stack deploy -c swhub-${PROJECT}.yml swhub-${PROJECT}
 
 # Pause script processing to allow stack services to come up completely
 echo "Waiting 120 seconds for stack services to come up completely before proceeding..."
