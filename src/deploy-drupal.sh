@@ -197,6 +197,7 @@ then
   # Remove existing stack
   docker stack rm swhub-${PROJECT}
   # Wait 60 seconds for container to stop
+  echo "Waiting 60 seconds for stack services to come stop completely before proceeding..."  
   sleep 60
   # Remove container
   docker container rm "${container_exists:0:12}"
