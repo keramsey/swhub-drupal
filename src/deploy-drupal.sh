@@ -195,12 +195,17 @@ then
   echo "Container exists: ${container_exists}"
   # Remove existing stack
   docker stack rm swhub-${PROJECT}
+  
   # Wait 60 seconds for container to stop
   echo "Waiting 60 seconds for stack services to stop completely before proceeding..."  
   sleep 60
-  # Remove image
-  old_image=docker image -q ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}
-  docker image rm "${old_image}"
+  
+  # Remove images
+  old_image=docker images -q ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}
+  while IFS=$'/n' read -r line; do
+    docker image rm "${line}"
+  done <<< "${old_image}"
+  
   # Cleanup
   docker container prune -f
   docker image prune -f
