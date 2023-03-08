@@ -155,7 +155,6 @@ mv /opt/docker/swhub-$PROJECT/swhub-drupal.yml /opt/docker/swhub-$PROJECT/swhub-
 # Update renamed docker-compose.yml file using PROJECT
 sed -i "s/test/${PROJECT}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
 sed -i "s/:9\.5\.3-php8\.1-apache/-${PROJECT}:${PROJECT_TAG}/" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
-#sed -i "s/loadbalancer\.server\.port=80/loadbalancer.server.port=${SERVICE_PORT}/" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
 
 # Create .secrets/.env file for configuring mysql container
 echo "MYSQL_DATABASE="${database//\'} >> /opt/docker/swhub-$PROJECT/.secrets/.env
@@ -190,11 +189,6 @@ docker network create --driver=overlay ${PROJECT}-net
 # Change directory
 cd /opt/docker/swhub-${PROJECT}
 
-# Build image
-docker-compose -f swhub-${PROJECT}.yml build --no-cache --force-rm
-docker login
-docker push ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}:${PROJECT_TAG}
-
 # Remove stack if container previously exists
 container_exists=$(docker ps --filter "label=com.docker.swarm.service.name=swhub-${PROJECT}_drupal-${PROJECT}" | sed -n '2p')
 if [ ! -z "${container_exists}" ]
@@ -205,6 +199,11 @@ then
   docker container prune -y
   docker image prune -y
 fi
+
+# Build image
+docker-compose -f swhub-${PROJECT}.yml build --no-cache --force-rm
+docker login
+docker push ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}:${PROJECT_TAG}
 
 # Deploy stack
 # NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
