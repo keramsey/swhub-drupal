@@ -195,10 +195,10 @@ if [ ! -z "${container_exists}" ]
 then
   echo "Container exists: ${container_exists}"
   docker stack rm swhub-${PROJECT}
-  docker image rm ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}
-  sleep 20
-  docker container prune -y
-  docker image prune -y
+  docker container rm "${container_exists:0:12}"
+  sleep 60
+  docker container prune
+  docker image prune
 fi
 
 # Build image
