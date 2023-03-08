@@ -201,7 +201,7 @@ then
   sleep 60
   # Remove image
   old_image=docker images -q ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}
-  docker image rm ${old_image}
+  docker image rm "${old_image}"
   # Cleanup
   docker container prune -f
   docker image prune -f
