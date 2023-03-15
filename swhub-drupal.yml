@@ -2,12 +2,14 @@ version: "3.3"
 services:
   mysql:
     image: mysql:8.0.32
+    build:
+      context: .
+      secrets:
+        - mysql-credentials
     restart: unless-stopped
     security_opt:
       - seccomp:unconfined
     command: --default_authentication-plugin=mysql_native_password
-    env_file:
-      - /opt/docker/swhub-test/.secrets/.env
     networks:
       - test-net
     expose: 
@@ -49,6 +51,10 @@ services:
       - test-net
     volumes:
       - test-drupal:/opt/drupal
+
+secrets:
+  mysql-credentials:
+    file: ./.secrets/.env
 
 networks:
   public:

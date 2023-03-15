@@ -177,14 +177,6 @@ echo -e $my > ~/.my.cnf
 # Backup website (Drupal 8) database (~/.my.cnf must exist and contain login credentials)
 mysqldump --defaults-group-suffix=${PROJECT} --column-statistics=0 ${database//\'}| gzip > /opt/docker/swhub-${PROJECT}/src/mysql/site-db.sql.gz
 
-# Create docker volumes
-docker volume create ${PROJECT}-drupal
-docker volume create ${PROJECT}-drupal-data
-docker volume create ${PROJECT}-mysql-data
-
-# Create docker network
-docker network create --driver=overlay ${PROJECT}-net
-
 # Change directory
 cd /opt/docker/swhub-${PROJECT}
 
@@ -208,11 +200,29 @@ then
       docker image rm "${line}"
     done <<< "${old_image}"
   fi
+
+  # Remove volumes
+  docker volume rm $PROJECT-drupal
+  docker volume rm $PROJECT-drupal-data
+  docker volume rm $PROJECT-mysql-data
   
+  # Remove network
+  docker network rm $PROJECT-net
+
   # Cleanup
   docker container prune -f
   docker image prune -f
+  docker volume prune -f
+  docker network prune -f
 fi
+
+# Create docker volumes
+docker volume create ${PROJECT}-drupal
+docker volume create ${PROJECT}-drupal-data
+docker volume create ${PROJECT}-mysql-data
+
+# Create docker network
+docker network create --driver=overlay ${PROJECT}-net
 
 # Build image
 docker-compose -f swhub-${PROJECT}.yml build --no-cache --force-rm
