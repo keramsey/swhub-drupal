@@ -9,6 +9,7 @@ RUN apt-get -y update \
 RUN apt-get -y update \
   && apt-get -y install zip \
   && apt-get -y install wget \
+  && apt-get -y install git \
   && apt-get -y install default-mysql-client
 # Copy script used to update drupal using composer
 COPY ./drupal/update-composer.sh /opt/drupal
