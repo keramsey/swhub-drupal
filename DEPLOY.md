@@ -13,7 +13,7 @@ cd /opt/docker
 ```sh
 git clone https://github.com/keramsey/swhub-drupal.git swhub-$PROJECT
 ```
-4. Create .env file containing one line containing the mysql root user password
+4. Create .env file containing one line containing the mysql root user password (DO NOT SURROUND PASSWORD WITH QUOTES)
 ```sh
 nano swhub-$PROJECT/.secrets/.env
 ```
