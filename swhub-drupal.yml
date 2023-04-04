@@ -1,12 +1,16 @@
-version: "3.3"
+version: "3.8"
 services:
   mysql:
-    image: mysql:8.0.32
+    image: landscapedatacommons/swhub-test-mysql:8.0.32
     build:
       context: ./src/mysql
-#      secrets:
-#        - mysql-credentials
-    restart: unless-stopped
+      args:
+        DOCKER_BUILDKIT: 1
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max-attempts: 3
+    restart: on-failure
     security_opt:
       - seccomp:unconfined
     command: --default_authentication-plugin=mysql_native_password
@@ -51,10 +55,6 @@ services:
       - test-net
     volumes:
       - test-drupal:/opt/drupal
-
-secrets:
-  mysql-credentials:
-    file: ./.secrets/.env
 
 networks:
   public:
