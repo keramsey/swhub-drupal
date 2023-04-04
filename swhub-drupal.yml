@@ -3,7 +3,7 @@ services:
   mysql:
     image: landscapedatacommons/swhub-test-mysql:8.0.32
     build:
-      context: ./src/mysql
+      context: ./mysql
       args:
         DOCKER_BUILDKIT: 1
     deploy:
