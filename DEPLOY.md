@@ -3,6 +3,7 @@ NOTE: THIS SCRIPT WILL OVERWRITE ~/.my.cnf IF IT EXISTS
 1. Store environment variable to allow naming of project folder, image and stack services
 ```sh
 export PROJECT=test
+export PROJECT_TAG=1.0.0
 ```
 >>>Note: Using above example where PROJECT=test then folder=swhub-test, service=drupal-test and image=drupal-test
 2. Change directory
@@ -18,9 +19,16 @@ git clone https://github.com/keramsey/swhub-drupal.git swhub-$PROJECT
 nano swhub-$PROJECT/.secrets/.env
 ```
 Note: Add one line  "MYSQL_ROOT_PASSWORD='<password>'" (without double quotes), substituting <password> with desired password used by a separate phpmyadmin stack
-5. Run script by modifying the following example (single command line) as needed
+
+5. Build local mysql image
 ```sh
-DOCKER_ACCOUNT=my_account SRC_DB=my_source_db_server SRC_PATH=/pathto/sites_folder SRC_USER=root SERVER=host_server_fqdn DOMAIN=website_fqdn DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash swhub-$PROJECT/src/deploy-drupal.sh
+cd /opt/docker/swhub-$PROJECT/src/mysql
+DOCKER_BUILDKIT=1 docker build -t landscapedatacommons/swhub-$PROJECT-mysql:$PROJECT_TAG --secret id=_env,src=/opt/docker/swhub-$PROJECT/.secrets/.env .
+```
+6. Run script by modifying the following example (single command line) as needed
+```sh
+cd /opt/docker/swhub-$PROJECT
+DOCKER_ACCOUNT=my_account SRC_DB=my_source_db_server SRC_PATH=/pathto/sites_folder SRC_USER=root SERVER=host_server_fqdn DOMAIN=website_fqdn DRUPAL_VER=9.5.3 bash swhub-$PROJECT/src/deploy-drupal.sh
 ```
 Notes:
 - PROJECT = abbreviated project name
