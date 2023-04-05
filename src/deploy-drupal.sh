@@ -7,7 +7,7 @@
 #   - DO NOT USE TRAILING SLASHES IN SRC_PATH -
 #
 # Example command line (single line):
-#   PROJECT=test DOCKER_ACCOUNT=landscapedatacommons SRC_DB=jornada-src SRC_PATH=/drupal/drupa-8.9.20/sites/default SRC_USER=username SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash /opt/docker/deploy-drupal.sh
+#   SRC_DB=jornada-src SRC_PATH=/drupal/drupa-8.9.20/sites/default SRC_USER=username SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info MYSQL_VER=8.0.32 DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash /opt/docker/deploy-drupal.sh
 #
 # Description of variables passed in command line used to run this script:
 #   - DOCKER_ACCOUNT = Docker Hub user account
@@ -152,10 +152,12 @@ mv /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php /opt/docker/
 # Rename docker-compose.yml file
 mv /opt/docker/swhub-$PROJECT/swhub-drupal.yml /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
 
-# Update PROJECT within docker-compose.yml file
+# Update PROJECT and image tags in docker-compose.yml file
 sed -i "s/test/${PROJECT}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
+sed -i "s/9-apache/${PROJECT_TAG}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
+sed -i "s/8\.0\.32/${PROJECT_TAG}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
 
-# Update image versions in Dockerfiles
+# Update image tags in Dockerfiles
 sed -i "s/9-apache/${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Dockerfile
 sed -i "s/8\.0\.32/${MYSQL_VER}/g" /opt/docker/swhub-$PROJECT/mysql/Dockerfile
 
