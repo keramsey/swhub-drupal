@@ -232,8 +232,13 @@ docker network create --driver=overlay ${PROJECT}-net
 docker pull mysql:${MYSQL_VER}
 docker pull drupal:${DRUPAL_VER}
 
-# Build image
-docker-compose -f swhub-${PROJECT}.yml build --no-cache --force-rm
+# Build local images
+cd /opt/docker/swhub-${PROJECT}/mysql
+DOCKER_BUILDKIT=1 docker build -t ${DOCKER_ACCOUNT}/mysql-${PROJECT}:${PROJECT_TAG} .
+cd /opt/docker/swhub-${PROJECT}/drupal
+docker build -t ${DOCKER_ACCOUNT}/drupal-${PROJECT}:${PROJECT_TAG}
+
+# Push local images to Docker Hub
 docker login
 docker push ${DOCKER_ACCOUNT}/mysql-${PROJECT}:${PROJECT_TAG}
 docker push ${DOCKER_ACCOUNT}/drupal-${PROJECT}:${PROJECT_TAG}
