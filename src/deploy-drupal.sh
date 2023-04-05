@@ -152,17 +152,17 @@ mv /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php /opt/docker/
 # Rename docker-compose.yml file
 mv /opt/docker/swhub-$PROJECT/swhub-drupal.yml /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
 
-# Update renamed docker-compose.yml file using PROJECT
+# Update PROJECT within docker-compose.yml file
 sed -i "s/test/${PROJECT}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
-sed -i "s/:9-apache/drupal-${PROJECT}:${PROJECT_TAG}/" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
+
+# Update image versions in Dockerfiles
+sed -i "s/9-apache/${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Dockerfile
+sed -i "s/8\.0\.32/${MYSQL_VER}/g" /opt/docker/swhub-$PROJECT/mysql/Dockerfile
 
 # Create .secrets/.env file for configuring mysql container
 echo "MYSQL_DATABASE="${database//\'} >> /opt/docker/swhub-$PROJECT/.secrets/.env
 echo "MYSQL_USER="${username//\'} >> /opt/docker/swhub-$PROJECT/.secrets/.env
 echo "MYSQL_PASSWORD="${password//\'} >> /opt/docker/swhub-$PROJECT/.secrets/.env
-
-# Update Dockerfile
-sed -i "s/9-apache/${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Dockerfile
 
 # Build config file variable using bash variable substitution
 my="[client${PROJECT}]\n"

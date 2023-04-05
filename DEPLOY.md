@@ -22,25 +22,10 @@ nano swhub-${PROJECT}/.secrets/.env
 ```
 Note: Add one line  "MYSQL_ROOT_PASSWORD='<password>'" (without double quotes), substituting <password> with desired password used by a separate phpmyadmin stack
 
-5. Build local mysql image
-```sh
-cd /opt/docker/swhub-${PROJECT}/mysql
-DOCKER_BUILDKIT=1 docker build -t ${DOCKER_ACCOUNT}/mysql-${PROJECT}:${PROJECT_TAG} --secret id=_env,src=/opt/docker/swhub-${PROJECT}/.secrets/.env .
-```
-6. Build local drupal image
-```sh
-cd /opt/docker/swhub-${PROJECT}/drupal
-docker build -t ${DOCKER_ACCOUNT}/drupal-${PROJECT}:${PROJECT_TAG} .
-```
-7. Push local images to Docker Hub
-```sh
-docker push ${DOCKER_ACCOUNT}/mysql-${PROJECT}:${PROJECT_TAG}
-docker push ${DOCKER_ACCOUNT}/drupal-${PROJECT}:${PROJECT_TAG}
-```
-8. Run script by modifying the following example (single command line) as needed -- enter SRC_USER password (source web server) when prompted
+5. Run script by modifying the following example (single command line) as needed -- enter SRC_USER password (source web server) when prompted
 ```sh
 cd /opt/docker
-DOCKER_ACCOUNT=my_account SRC_DB=my_source_db_server SRC_PATH=/pathto/sites_folder SRC_USER=root SERVER=host_server_fqdn DOMAIN=website_fqdn DRUPAL_VER=9.5.3 bash swhub-${PROJECT}/src/deploy-drupal.sh
+SRC_DB=my_source_db_server SRC_PATH=/pathto/sites_folder SRC_USER=root SERVER=host_server_fqdn DOMAIN=website_fqdn MYSQL_VER=8.0.32 DRUPAL_VER=9.5.3 bash swhub-${PROJECT}/src/deploy-drupal.sh
 ```
 Notes:
 - PROJECT = abbreviated project name
