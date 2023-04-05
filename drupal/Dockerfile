@@ -1,6 +1,7 @@
 FROM drupal:9-apache
+LABEL Ken Ramsey="kramsey@jornada-vmail.nmsu.edu"
 #
-# From latest official Docker Hub image of Drupal 9 on Apache
+# From official Docker Hub image of Drupal on Apache (default drupal:9-apache:latest)
 #
 # Install system packages
 #  - mysql-client and zip are needed for drush to export database dumps using drush

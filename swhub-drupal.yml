@@ -1,9 +1,10 @@
 version: "3.8"
 services:
-  mysql:
-    image: landscapedatacommons/swhub-test-mysql:8.0.32
+  mysql-test:
+    image: landscapedatacommons/mysql-test:8.0.32
     build:
-      context: ./mysql
+      context: /opt/docker/swhub-test
+      dockerfile: mysql/Dockerfile
       args:
         DOCKER_BUILDKIT: 1
     deploy:
@@ -23,12 +24,12 @@ services:
       - test-mysql-data:/var/lib/mysql
 
   drupal-test:
-    image: landscapedatacommons/swhub-drupal:9.5.3-php8.1-apache
+    image: landscapedatacommons/drupal-test:9-apache
     build:
       context: /opt/docker/swhub-test
       dockerfile: drupal/Dockerfile
     depends_on:
-      - mysql
+      - mysql-test
     networks:
       - test-net
       - public

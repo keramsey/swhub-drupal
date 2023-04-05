@@ -17,7 +17,8 @@
 #   - PROJECT = project subdomain (e.g., dust if migrating dust.swclimatehub.info)
 #   - SERVER = docker swarm node server (FQDN)
 #   - DOMAIN = production website domain (FQDN)
-#   - DRUPAL_VER = drupal version for drupal stack service (e.g., 9.5.3)
+#   - MYSQL_VER = mysql versuib for stack service (default = 8.0.32)
+#   - DRUPAL_VER = drupal version for stack service (defult = 9-apache)
 #   - PROJECT_TAG = desired tag for pushing image to Docker Hub
 #
 # Build testing URL using host server instead of production URL
@@ -153,7 +154,7 @@ mv /opt/docker/swhub-$PROJECT/swhub-drupal.yml /opt/docker/swhub-$PROJECT/swhub-
 
 # Update renamed docker-compose.yml file using PROJECT
 sed -i "s/test/${PROJECT}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
-sed -i "s/:9\.5\.3-php8\.1-apache/-${PROJECT}:${PROJECT_TAG}/" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
+sed -i "s/:9-apache/drupal-${PROJECT}:${PROJECT_TAG}/" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
 
 # Create .secrets/.env file for configuring mysql container
 echo "MYSQL_DATABASE="${database//\'} >> /opt/docker/swhub-$PROJECT/.secrets/.env
@@ -217,6 +218,7 @@ then
 fi
 
 # Create docker volumes
+# QUESTION: does this double storage needed for drupal volumes?
 docker volume create ${PROJECT}-drupal
 docker volume create ${PROJECT}-drupal-data
 docker volume create ${PROJECT}-mysql-data
@@ -224,10 +226,15 @@ docker volume create ${PROJECT}-mysql-data
 # Create docker network
 docker network create --driver=overlay ${PROJECT}-net
 
+# Pull base images
+docker pull mysql:${MYSQL_VER}
+docker pull drupal:${DRUPAL_VER}
+
 # Build image
 docker-compose -f swhub-${PROJECT}.yml build --no-cache --force-rm
 docker login
-docker push ${DOCKER_ACCOUNT}/swhub-drupal-${PROJECT}:${PROJECT_TAG}
+docker push ${DOCKER_ACCOUNT}/mysql-${PROJECT}:${PROJECT_TAG}
+docker push ${DOCKER_ACCOUNT}/drupal-${PROJECT}:${PROJECT_TAG}
 
 # Deploy stack
 # NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
