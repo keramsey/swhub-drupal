@@ -230,7 +230,6 @@ docker network create --driver=overlay ${PROJECT}-net
 
 # Pull base images
 docker pull mysql:${MYSQL_VER}
-docker pull drupal:${DRUPAL_VER}
 
 # Build local images
 cd /opt/docker/swhub-${PROJECT}/mysql
