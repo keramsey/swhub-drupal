@@ -154,12 +154,12 @@ mv /opt/docker/swhub-$PROJECT/swhub-drupal.yml /opt/docker/swhub-$PROJECT/swhub-
 
 # Update PROJECT and image tags in docker-compose.yml file
 sed -i "s/test/${PROJECT}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
-sed -i "s/9-apache/${PROJECT_TAG}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
-sed -i "s/8\.0\.32/${PROJECT_TAG}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
+sed -i "s/:9-apache/:${PROJECT_TAG}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
+sed -i "s/:8/:${PROJECT_TAG}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
 
 # Update image tags in Dockerfiles
-sed -i "s/9-apache/${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Dockerfile
-sed -i "s/8\.0\.32/${MYSQL_VER}/g" /opt/docker/swhub-$PROJECT/mysql/Dockerfile
+sed -i "s/:9-apache/:${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Dockerfile
+sed -i "s/:8/:${MYSQL_VER}/g" /opt/docker/swhub-$PROJECT/mysql/Dockerfile
 
 # Create .secrets/.env file for configuring mysql container
 echo "MYSQL_DATABASE="${database//\'} >> /opt/docker/swhub-$PROJECT/.secrets/.env

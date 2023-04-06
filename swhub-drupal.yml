@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   mysql-test:
-    image: landscapedatacommons/mysql-test:8.0.32
+    image: landscapedatacommons/mysql-test:8
     build:
       context: /opt/docker/swhub-test
       dockerfile: mysql/Dockerfile
