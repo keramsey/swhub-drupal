@@ -2,6 +2,16 @@ version: "3.8"
 services:
   mysql-test:
     image: landscapedatacommons/mysql-test:8
+    secrets:
+      - mysql_root
+      - mysql_db
+      - mysql_usr
+      - mysql_pw
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root
+      MYSQL_DATABASE_FILE: /run/secrets/mysql_db
+      MYSQL_USER_FILE: /run/secrets/mysql_usr
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_pw
     build:
       context: /opt/docker/swhub-test
       dockerfile: mysql/Dockerfile
@@ -56,6 +66,16 @@ services:
       - test-net
     volumes:
       - test-drupal:/opt/drupal
+
+secrets:
+  mysql_root:
+    file: /opt/docker/swhub-test/mysql/.secrets/.mysql_root
+  mysql_db:
+    file: /opt/docker/swhub-test/mysql/.secrets/.mysql_db
+  mysql_usr:
+    file: /opt/docker/swhub-test/mysql/.secrets/.mysql_usr
+  mysql_pw:
+    file: /opt/docker/swhub-test/mysql/.secrets/.mysql_pw
 
 networks:
   public:

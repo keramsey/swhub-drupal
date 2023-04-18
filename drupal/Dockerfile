@@ -1,5 +1,4 @@
 FROM drupal:9-apache
-LABEL Ken Ramsey="kramsey@jornada-vmail.nmsu.edu"
 #
 # From official Docker Hub image of Drupal on Apache (default drupal:9-apache:latest)
 #
@@ -18,8 +17,8 @@ COPY ./drupal/update-composer.sh /opt/drupal
 COPY ./drupal/update-drush.sh /opt/drupal
 # Copy script used to fix drupal filesystem permissions
 COPY ./drupal/fix-permissions.sh /opt/drupal/web
-# Copy dln.swclimatehub.info site folder contents to sites/default
-COPY ./src/site/default/ /opt/drupal/web/sites/default
+# Copy site folder contents to sites/default
+COPY ./drupal/src/site/default/ /opt/drupal/web/sites/default
 # Create libraries folder
 RUN mkdir /opt/drupal/web/libraries
 # Create private folders
