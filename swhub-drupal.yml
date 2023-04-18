@@ -20,7 +20,7 @@ services:
     expose: 
       - 3306
     volumes:
-      - /opt/docker/swhub-test/src/mysql:/docker-entrypoint-initdb.d
+      - /opt/docker/swhub-test/mysql/src:/docker-entrypoint-initdb.d
       - test-mysql-data:/var/lib/mysql
 
   drupal-test:
@@ -36,7 +36,7 @@ services:
     volumes:
       - test-drupal:/opt/drupal
       - test-drupal-data:/var/www/html
-      - /opt/docker/swhub-test/src/mysql:/var/mysql/backups
+      - /opt/docker/swhub-test/mysql/src:/var/mysql/backups
     deploy:
       labels:
         - "traefik.enable=true"

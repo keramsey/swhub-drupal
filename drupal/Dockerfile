@@ -29,8 +29,8 @@ RUN mkdir /opt/drupal/private/config/sync
 RUN mkdir /opt/drupal/private/files
 RUN mkdir /opt/drupal/private/temp
 # Copy .htaccess files and private/files folder contents but not configuration or temp files
-COPY ./private/config/sync/.htaccess /opt/drupal/private/config/sync
-COPY ./private/temp/.htaccess /opt/drupal/private/temp
-COPY ./private/files/ /opt/drupal/private/files
+COPY ./drupal/private/config/sync/.htaccess /opt/drupal/private/config/sync
+COPY ./drupal/private/temp/.htaccess /opt/drupal/private/temp
+COPY ./drupal/private/files/ /opt/drupal/private/files
 # Set filesystem permissions for sites folder and contents
 RUN sh /opt/drupal/web/fix-permissions.sh
