@@ -18,14 +18,14 @@ git clone https://github.com/${GIT_ACCOUNT}/swhub-drupal.git swhub-${PROJECT}
 ```
 4. Create .env file containing one line containing the mysql root user password (DO NOT SURROUND PASSWORD WITH QUOTES)
 ```sh
-nano swhub-${PROJECT}/.secrets/.env
+nano swhub-${PROJECT}/mysql/.secrets/.mysql_root
 ```
-Note: Add one line  "MYSQL_ROOT_PASSWORD='<password>'" (without double quotes), substituting <password> with desired password used by a separate phpmyadmin stack
+Note: Add single line containing the root database user password (without quotes) for use by separate phpmyadmin stack before saving .mysql_root file
 
 5. Run script by modifying the following example (single command line) as needed -- enter SRC_USER password (source web server) when prompted
 ```sh
 cd /opt/docker
-SRC_DB=my_source_db_server SRC_PATH=/pathto/sites_folder SRC_USER=root SERVER=host_server_fqdn DOMAIN=website_fqdn MYSQL_VER=8.0.32 DRUPAL_VER=9.5.3 bash swhub-${PROJECT}/src/deploy-drupal.sh
+SRC_DB=my_source_db_server SRC_PATH=/pathto/source/sites_folder SRC_USER=root SERVER=host_server_fqdn DOMAIN=website_fqdn MYSQL_VER=8.0.32 DRUPAL_VER=9.5.3 bash swhub-${PROJECT}/deploy-drupal.sh
 ```
 Notes:
 - PROJECT = abbreviated project name
