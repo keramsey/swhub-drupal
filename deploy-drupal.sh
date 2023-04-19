@@ -162,9 +162,9 @@ sed -i "s/:9-apache/:${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/D
 sed -i "s/:8/:${MYSQL_VER}/g" /opt/docker/swhub-$PROJECT/mysql/Dockerfile
 
 # Create .secrets/.env file for configuring mysql container without surrounding quotes
-echo ${database//\'} > /opt/docker/swhub-$PROJECT/.secrets/.mysql_db
-echo ${username//\'} > /opt/docker/swhub-$PROJECT/.secrets/.mysql_usr
-echo ${password//\'} > /opt/docker/swhub-$PROJECT/.secrets/.mysql_pw
+echo ${database//\'} > /opt/docker/swhub-$PROJECT/mysql/.secrets/.mysql_db
+echo ${username//\'} > /opt/docker/swhub-$PROJECT/mysql/.secrets/.mysql_usr
+echo ${password//\'} > /opt/docker/swhub-$PROJECT/mysql/.secrets/.mysql_pw
 
 # Build config file variable using bash variable substitution
 my="[client${PROJECT}]\n"
