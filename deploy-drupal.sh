@@ -236,7 +236,7 @@ docker pull drupal:${DRUPAL_VER}
 cd /opt/docker/swhub-${PROJECT}/mysql
 DOCKER_BUILDKIT=1 docker build -t ${DOCKER_ACCOUNT}/mysql-${PROJECT}:${PROJECT_TAG} --secret id=mysql_root,src=/opt/docker/mysql/.secrets/.mysql_root --secret id=mysql_db,src=/opt/docker/mysql/.secrets/.mysql_db --secret id=mysql_usr,src=/opt/docker/mysql/.secrets/.mysql_usr --secret id=mysql_pw,src=/opt/docker/mysql/.secrets/.mysql_pw .
 cd /opt/docker/swhub-${PROJECT}/drupal
-docker build -t ${DOCKER_ACCOUNT}/drupal-${PROJECT}:${PROJECT_TAG}
+docker build -t ${DOCKER_ACCOUNT}/drupal-${PROJECT}:${PROJECT_TAG} .
 
 # Push local images to Docker Hub
 docker login
