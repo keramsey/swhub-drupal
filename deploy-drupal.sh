@@ -244,8 +244,9 @@ docker push ${DOCKER_ACCOUNT}/mysql-${PROJECT}:${PROJECT_TAG}
 docker push ${DOCKER_ACCOUNT}/drupal-${PROJECT}:${PROJECT_TAG}
 
 # Deploy stack
-# NOTE: docker network must exist (network create --driver=overlay --attachable shiny-net)
-DOMAIN=${DOMAIN} docker stack deploy -c docker-stack.yml swhub-${PROJECT}
+# NOTE: docker network must exist (network create --driver=overlay --attachable ${PROJECT}-net)
+cd /opt/docker/swhub-${PROJECT}
+DOMAIN=${DOMAIN} docker stack deploy -c /opt/docker/swhub-${PROJECT}/docker-stack.yml swhub-${PROJECT}
 
 # Pause script processing to allow stack services to come up completely
 echo "Waiting 120 seconds for stack services to come up completely before proceeding..."
