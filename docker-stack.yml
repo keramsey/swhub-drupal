@@ -52,7 +52,7 @@ services:
     depends_on:
       - drupal-test
     working_dir: /opt/drupal
-    command: ["sh", "update-composer.sh"]
+    command: ["sh", "/opt/docker/update-composer.sh"]
     networks:
       - test-net
     volumes:
