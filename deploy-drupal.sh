@@ -7,19 +7,22 @@
 #   - DO NOT USE TRAILING SLASHES IN SRC_PATH -
 #
 # Example command line (single line):
-#   SRC_DB=jornada-src SRC_PATH=/drupal/drupa-8.9.20/sites/default SRC_USER=username SERVER=jornada-test.nmsu.edu DOMAIN=test.swclimatehub.info MYSQL_VER=8.0.32 DRUPAL_VER=9.5.3 PROJECT_TAG=1.0.0 bash /opt/docker/deploy-drupal.sh
+#   SRC_DB=my_source_db_server SRC_PATH=/pathto/source/sites_folder SRC_USER=root SERVER=host_server_fqdn DOMAIN=website_fqdn MYSQL_VER=8.0.32 DRUPAL_VER=9.5.3 bash swhub-${PROJECT}/deploy-drupal.sh
+#
+# NOTE: see DEPLOY.md for pre-requisite requirements to running this script
 #
 # Description of variables passed in command line used to run this script:
-#   - DOCKER_ACCOUNT = Docker Hub user account
+#   - PROJECT = project subdomain: e.g., dust when migrating dust.swclimatehub.info (not set in command line, see DEPLOY.md)
+#   - PROJECT_TAG = desired tag for pushing image to Docker Hub (not set in command line, see DEPLOY.md)
+#   - DOCKER_ACCOUNT = Docker Hub user account (not set in command line, see DEPLOY.md)
+#   - GIT_ACCOUNT = Git Hub user account for source repo (not set in command line, see DEPLOY.md)
 #   - SRC_DB = source database host
 #   - SRC_PATH = source sites path (without trailing slash) on source host (not necessarily database host)
 #   - SRC_USER = user for authenticating to copy source files and folders
-#   - PROJECT = project subdomain (e.g., dust if migrating dust.swclimatehub.info)
 #   - SERVER = docker swarm node server (FQDN)
 #   - DOMAIN = production website domain (FQDN)
 #   - MYSQL_VER = mysql versuib for stack service (default = 8.0.32)
 #   - DRUPAL_VER = drupal version for stack service (defult = 9-apache)
-#   - PROJECT_TAG = desired tag for pushing image to Docker Hub
 #
 # Build testing URL using host server instead of production URL
 PROJECT_URL=${PROJECT}.${SERVER}

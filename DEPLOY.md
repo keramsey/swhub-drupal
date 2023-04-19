@@ -24,12 +24,13 @@ Note: Add single line containing the root database user password (without quotes
 
 5. Run script by modifying the following example (single command line) as needed -- enter SRC_USER password (source web server) when prompted
 ```sh
-cd /opt/docker
 SRC_DB=my_source_db_server SRC_PATH=/pathto/source/sites_folder SRC_USER=root SERVER=host_server_fqdn DOMAIN=website_fqdn MYSQL_VER=8.0.32 DRUPAL_VER=9.5.3 bash swhub-${PROJECT}/deploy-drupal.sh
 ```
 Notes:
 - PROJECT = abbreviated project name
+- PROJECT_TAG = desired tag for pushing image to Docker Hub
 - DOCKER_ACCOUNT = Docker Hub user account
+- GIT_ACCOUNT = Git Hub user account for source repo
 - SRC_DB = source database host
 - SRC_PATH = source sites path (without trailing slash) on source host (not necessarily database host)
 - SRC_USER = user for authenticating to copy source files and folders
@@ -37,4 +38,3 @@ Notes:
 - SERVER = docker swarm node server (FQDN)
 - DOMAIN = production website domain (FQDN)
 - DRUPAL_VER = drupal version for drupal stack service (e.g., 9.5.3)
-- PROJECT_TAG = desired tag for pushing image to Docker Hub
