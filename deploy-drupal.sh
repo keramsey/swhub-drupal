@@ -233,10 +233,8 @@ docker pull mysql:${MYSQL_VER}
 docker pull drupal:${DRUPAL_VER}
 
 # Build local images
-cd /opt/docker/swhub-${PROJECT}/mysql
-DOCKER_BUILDKIT=1 docker build -t ${DOCKER_ACCOUNT}/mysql-${PROJECT}:${PROJECT_TAG} --secret id=mysql_root,src=/opt/docker/mysql/.secrets/.mysql_root --secret id=mysql_db,src=/opt/docker/mysql/.secrets/.mysql_db --secret id=mysql_usr,src=/opt/docker/mysql/.secrets/.mysql_usr --secret id=mysql_pw,src=/opt/docker/mysql/.secrets/.mysql_pw .
-cd /opt/docker/swhub-${PROJECT}/drupal
-docker build -t ${DOCKER_ACCOUNT}/drupal-${PROJECT}:${PROJECT_TAG} .
+DOCKER_BUILDKIT=1 docker build -t ${DOCKER_ACCOUNT}/mysql-${PROJECT}:${PROJECT_TAG} --secret id=mysql_root,src=/opt/docker/mysql/.secrets/.mysql_root --secret id=mysql_db,src=/opt/docker/mysql/.secrets/.mysql_db --secret id=mysql_usr,src=/opt/docker/mysql/.secrets/.mysql_usr --secret id=mysql_pw,src=/opt/docker/mysql/.secrets/.mysql_pw /opt/docker/swhub-${PROJECT}/mysql
+docker build -t ${DOCKER_ACCOUNT}/drupal-${PROJECT}:${PROJECT_TAG} /opt/docker/swhub-${PROJECT}/drupal
 
 # Push local images to Docker Hub
 docker login
