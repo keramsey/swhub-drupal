@@ -12,11 +12,6 @@ services:
       MYSQL_DATABASE_FILE: /run/secrets/mysql_db
       MYSQL_USER_FILE: /run/secrets/mysql_usr
       MYSQL_PASSWORD_FILE: /run/secrets/mysql_pw
-    build:
-      context: /opt/docker/swhub-test
-      dockerfile: mysql/Dockerfile
-      args:
-        DOCKER_BUILDKIT: 1
     deploy:
       restart_policy:
         condition: on-failure
@@ -34,9 +29,6 @@ services:
 
   drupal-test:
     image: landscapedatacommons/drupal-test:9-apache
-    build:
-      context: /opt/docker/swhub-test
-      dockerfile: drupal/Dockerfile
     depends_on:
       - mysql-test
     networks:
