@@ -150,15 +150,12 @@ sed -i "/\ \*\ @see\ https:\/\/www\.drupal\.org\/docs\/installing-drupal\/truste
 
 # Delete and replace D7 settings.php file
 rm -f /opt/docker/swhub-$PROJECT/drupal/src/site/default/settings.php
-mv /opt/docker/swhub-$PROJECT/src/drupal/site/default/default.settings.php /opt/docker/swhub-$PROJECT/drupal/src/site/default/settings.php
-
-# Rename docker-compose.yml file
-mv /opt/docker/swhub-$PROJECT/swhub-drupal.yml /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
+mv /opt/docker/swhub-$PROJECT/drupal/src/site/default/default.settings.php /opt/docker/swhub-$PROJECT/drupal/src/site/default/settings.php
 
 # Update PROJECT and image tags in docker-compose.yml file
-sed -i "s/test/${PROJECT}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
-sed -i "s/:9-apache/:${PROJECT_TAG}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
-sed -i "s/:8/:${PROJECT_TAG}/g" /opt/docker/swhub-$PROJECT/swhub-$PROJECT.yml
+sed -i "s/test/${PROJECT}/g" /opt/docker/swhub-$PROJECT/docker-stack.yml
+sed -i "s/:9-apache/:${PROJECT_TAG}/g" /opt/docker/swhub-$PROJECT/docker-stack.yml
+sed -i "s/:8/:${PROJECT_TAG}/g" /opt/docker/swhub-$PROJECT/docker-stack.yml
 
 # Update image tags in Dockerfiles
 sed -i "s/:9-apache/:${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Dockerfile
@@ -181,7 +178,7 @@ my+="\n"
 echo -e $my > ~/.my.cnf
 
 # Backup website (Drupal 8) database (~/.my.cnf must exist and contain login credentials)
-mysqldump --defaults-group-suffix=${PROJECT} --column-statistics=0 ${database//\'}| gzip > /opt/docker/swhub-${PROJECT}/mysql/src/mysql/site-db.sql.gz
+mysqldump --defaults-group-suffix=${PROJECT} --column-statistics=0 ${database//\'}| gzip > /opt/docker/swhub-${PROJECT}/mysql/src/site-db.sql.gz
 
 # Change directory
 cd /opt/docker/swhub-${PROJECT}
