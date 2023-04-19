@@ -20,7 +20,6 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        max-attempts: 3
     restart: on-failure
     security_opt:
       - seccomp:unconfined
