@@ -28,31 +28,31 @@
 PROJECT_URL=${PROJECT}.${SERVER}
 
 # Store current working directory
-ORIGINAL_DIR=$(pwd)
+ORIGINAL_DIR=echo $(pwd)
 
 # Create project directory
-mkdir /opt/docker/swhub-$PROJECT
+mkdir /opt/docker/swhub-${PROJECT}
 
 # Change directory
-cd /opt/docker
+echo $(cd /opt/docker)
 
 # Download drupal
-wget https://ftp.drupal.org/files/projects/drupal-$DRUPAL_VER.tar.gz
+wget https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VER}.tar.gz
 
 # Extract default.settings.php from drupal version download
-tar -xzf drupal-$DRUPAL_VER.tar.gz drupal-$DRUPAL_VER/sites/default/default.settings.php --strip-components=3
+tar -xzf drupal-${DRUPAL_VER}.tar.gz drupal-${DRUPAL_VER}/sites/default/default.settings.php --strip-components=3
 
 # Move default.settings.php
-mv default.settings.php /opt/docker/swhub-$PROJECT/drupal/src/site/default/default.settings.php
+mv default.settings.php /opt/docker/swhub-${PROJECT}/drupal/src/site/default/default.settings.php
 
 # Cleanup download file
-rm -f drupal-$DRUPAL_VER.tar.gz
+rm -f drupal-${DRUPAL_VER}.tar.gz
 
 # Copy website site folder
-scp -r $SRC_USER@$SRC_DB:$SRC_PATH/* /opt/docker/swhub-$PROJECT/drupal/src/site/default/
+scp -r ${SRC_USER}@${SRC_DB}:${SRC_PATH}/* /opt/docker/swhub-${PROJECT}/drupal/src/site/default/
 
 # Store database setting values
-cd /opt/docker/swhub-$PROJECT/drupal/src/site/default
+echo $(cd /opt/docker/swhub-${PROJECT}/drupal/src/site/default)
 while IFS=' = ' read -r var val
 do
   if [[ "${var}" == *"database"* ]]
@@ -128,11 +128,11 @@ database_settings+="\ \ \'collation\'\ \=>\ ${collation}\,\n"
 database_settings+="\];"
 
 # Update database and other settings in D9 default.settings.php file
-sed -i "s/\$databases = \[\];/${database_settings}/" /opt/docker/swhub-$PROJECT/drupal/src/site/default/default.settings.php
+sed -i "s/\$databases = \[\];/${database_settings}/" /opt/docker/swhub-${PROJECT}/drupal/src/site/default/default.settings.php
 sed -i "s/# \$settings\['config_sync_directory'\]\ \=\ '\/directory\/outside\/webroot';/\$settings\['config_sync_directory'\]\ \=\ '\/opt\/drupal\/private\/config\/sync'\;/" /opt/docker/swhub-$PROJECT/drupal/src/site/default/default.settings.php
-sed -i "s/\$settings\['hash_salt'\]\ \=\ '';/\$settings\['hash_salt'\]\ \=\ ${hash_salt}\;/" /opt/docker/swhub-$PROJECT/drupal/src/site/default/default.settings.php
-sed -i "s/# \$settings\['file_private_path'\]\ \=\ '';/\$settings\['file_private_path'\]\ \=\ '\/opt\/drupal\/private\/files'\;/" /opt/docker/swhub-$PROJECT/drupal/src/site/default/default.settings.php
-sed -i "s/# \$settings\['file_temp_path'\]\ \=\ '\/tmp';/\$settings\['file_temp_path'\]\ \=\ '\/opt\/drupal\/private\/temp'\;/" /opt/docker/swhub-$PROJECT/drupal/src/site/default/default.settings.php
+sed -i "s/\$settings\['hash_salt'\]\ \=\ '';/\$settings\['hash_salt'\]\ \=\ ${hash_salt}\;/" /opt/docker/swhub-${PROJECT}/drupal/src/site/default/default.settings.php
+sed -i "s/# \$settings\['file_private_path'\]\ \=\ '';/\$settings\['file_private_path'\]\ \=\ '\/opt\/drupal\/private\/files'\;/" /opt/docker/swhub-${PROJECT}/drupal/src/site/default/default.settings.php
+sed -i "s/# \$settings\['file_temp_path'\]\ \=\ '\/tmp';/\$settings\['file_temp_path'\]\ \=\ '\/opt\/drupal\/private\/temp'\;/" /opt/docker/swhub-${PROJECT}/drupal/src/site/default/default.settings.php
 
 # Build replace string
 trusted_host_patterns="\$settings\['trusted_host_patterns'\]\ \=\ \[\n"
@@ -146,25 +146,25 @@ trusted_host_patterns+="\];"
 
 # The sed command is intentionally split with a hard line return for multiline output
 sed -i "/\ \*\ @see\ https:\/\/www\.drupal\.org\/docs\/installing-drupal\/trusted-host-settings/{N;a ${trusted_host_patterns}
-}" /opt/docker/swhub-$PROJECT/drupal/src/site/default/default.settings.php
+}" /opt/docker/swhub-${PROJECT}/drupal/src/site/default/default.settings.php
 
 # Delete and replace D7 settings.php file
-rm -f /opt/docker/swhub-$PROJECT/drupal/src/site/default/settings.php
-mv /opt/docker/swhub-$PROJECT/drupal/src/site/default/default.settings.php /opt/docker/swhub-$PROJECT/drupal/src/site/default/settings.php
+rm -f /opt/docker/swhub-${PROJECT}/drupal/src/site/default/settings.php
+mv /opt/docker/swhub-${PROJECT}/drupal/src/site/default/default.settings.php /opt/docker/swhub-${PROJECT}/drupal/src/site/default/settings.php
 
 # Update PROJECT and image tags in docker-compose.yml file
-sed -i "s/test/${PROJECT}/g" /opt/docker/swhub-$PROJECT/docker-stack.yml
-sed -i "s/:9-apache/:${PROJECT_TAG}/g" /opt/docker/swhub-$PROJECT/docker-stack.yml
-sed -i "s/:8/:${PROJECT_TAG}/g" /opt/docker/swhub-$PROJECT/docker-stack.yml
+sed -i "s/test/${PROJECT}/g" /opt/docker/swhub-${PROJECT}/docker-stack.yml
+sed -i "s/:9-apache/:${PROJECT_TAG}/g" /opt/docker/swhub-${PROJECT}/docker-stack.yml
+sed -i "s/:8/:${PROJECT_TAG}/g" /opt/docker/swhub-${PROJECT}/docker-stack.yml
 
 # Update image tags in Dockerfiles
-sed -i "s/:9-apache/:${DRUPAL_VER}-apache/g" /opt/docker/swhub-$PROJECT/drupal/Dockerfile
-sed -i "s/:8/:${MYSQL_VER}/g" /opt/docker/swhub-$PROJECT/mysql/Dockerfile
+sed -i "s/:9-apache/:${DRUPAL_VER}-apache/g" /opt/docker/swhub-${PROJECT}/drupal/Dockerfile
+sed -i "s/:8/:${MYSQL_VER}/g" /opt/docker/swhub-${PROJECT}/mysql/Dockerfile
 
 # Create .secrets/.env file for configuring mysql container without surrounding quotes
-echo ${database//\'} > /opt/docker/swhub-$PROJECT/mysql/.secrets/.mysql_db
-echo ${username//\'} > /opt/docker/swhub-$PROJECT/mysql/.secrets/.mysql_usr
-echo ${password//\'} > /opt/docker/swhub-$PROJECT/mysql/.secrets/.mysql_pw
+echo ${database//\'} > /opt/docker/swhub-${PROJECT}/mysql/.secrets/.mysql_db
+echo ${username//\'} > /opt/docker/swhub-${PROJECT}/mysql/.secrets/.mysql_usr
+echo ${password//\'} > /opt/docker/swhub-${PROJECT}/mysql/.secrets/.mysql_pw
 
 # Build config file variable using bash variable substitution
 my="[client${PROJECT}]\n"
@@ -175,13 +175,13 @@ my+="port=$(echo ${port//\'})"
 my+="\n"
 
 # Create or overwrite database config file in user's home directory to allow dumping of source database
-echo -e $my > ~/.my.cnf
+echo -e ${my} > ~/.my.cnf
 
 # Backup website (Drupal 8) database (~/.my.cnf must exist and contain login credentials)
 mysqldump --defaults-group-suffix=${PROJECT} --column-statistics=0 ${database//\'}| gzip > /opt/docker/swhub-${PROJECT}/mysql/src/site-db.sql.gz
 
 # Change directory
-cd /opt/docker/swhub-${PROJECT}
+echo $(cd /opt/docker/swhub-${PROJECT})
 
 # Remove stack if container previously exists
 container_exists=$(docker ps --filter "label=com.docker.swarm.service.name=swhub-${PROJECT}_drupal-${PROJECT}" | sed -n '2p')
@@ -233,8 +233,8 @@ docker pull mysql:${MYSQL_VER}
 docker pull drupal:${DRUPAL_VER}
 
 # Build local images
-DOCKER_BUILDKIT=1 docker build -t ${DOCKER_ACCOUNT}/mysql-${PROJECT}:${PROJECT_TAG} --secret id=mysql_root,src=/opt/docker/mysql/.secrets/.mysql_root --secret id=mysql_db,src=/opt/docker/mysql/.secrets/.mysql_db --secret id=mysql_usr,src=/opt/docker/mysql/.secrets/.mysql_usr --secret id=mysql_pw,src=/opt/docker/mysql/.secrets/.mysql_pw /opt/docker/swhub-${PROJECT}/mysql
-docker build -t ${DOCKER_ACCOUNT}/drupal-${PROJECT}:${PROJECT_TAG} /opt/docker/swhub-${PROJECT}/drupal
+DOCKER_BUILDKIT=1 docker build --no-cache -t ${DOCKER_ACCOUNT}/mysql-${PROJECT}:${PROJECT_TAG} --secret id=mysql_root,src=/opt/docker/mysql/.secrets/.mysql_root --secret id=mysql_db,src=/opt/docker/mysql/.secrets/.mysql_db --secret id=mysql_usr,src=/opt/docker/mysql/.secrets/.mysql_usr --secret id=mysql_pw,src=/opt/docker/mysql/.secrets/.mysql_pw /opt/docker/swhub-${PROJECT}/mysql
+docker build --no-cache -t ${DOCKER_ACCOUNT}/drupal-${PROJECT}:${PROJECT_TAG} /opt/docker/swhub-${PROJECT}/drupal
 
 # Push local images to Docker Hub
 docker login
@@ -243,7 +243,7 @@ docker push ${DOCKER_ACCOUNT}/drupal-${PROJECT}:${PROJECT_TAG}
 
 # Deploy stack
 # NOTE: docker network must exist (network create --driver=overlay --attachable ${PROJECT}-net)
-cd /opt/docker/swhub-${PROJECT}
+echo $(cd /opt/docker/swhub-${PROJECT})
 DOMAIN=${DOMAIN} docker stack deploy -c /opt/docker/swhub-${PROJECT}/docker-stack.yml swhub-${PROJECT}
 
 # Pause script processing to allow stack services to come up completely
@@ -267,4 +267,4 @@ else
   echo "Containers: ${containers}"
 fi
 # Change to original directory
-cd $ORIGINAL_DIR
+echo $(cd ${ORIGINAL_DIR})
