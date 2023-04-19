@@ -43,7 +43,7 @@ wget https://ftp.drupal.org/files/projects/drupal-$DRUPAL_VER.tar.gz
 tar -xzf drupal-$DRUPAL_VER.tar.gz drupal-$DRUPAL_VER/sites/default/default.settings.php --strip-components=3
 
 # Move default.settings.php
-mv default.settings.php /opt/docker/swhub-$PROJECT/src/site/default/default.settings.php
+mv default.settings.php /opt/docker/swhub-$PROJECT/drupal/src/site/default/default.settings.php
 
 # Cleanup download file
 rm -f drupal-$DRUPAL_VER.tar.gz
