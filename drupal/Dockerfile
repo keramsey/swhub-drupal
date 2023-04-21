@@ -18,7 +18,7 @@ COPY /opt/docker/swhub-${PROJECT}/drupal/update-drush.sh /opt/drupal
 # Copy script used to fix drupal filesystem permissions
 COPY /opt/docker/swhub-${PROJECT}/drupal/fix-permissions.sh /opt/drupal/web
 # Copy site folder contents to sites/default
-COPY /opt/docker/swhub-${PROJECT}/drupal/src/default/ /opt/drupal/web/sites/default
+COPY /opt/docker/swhub-${PROJECT}/drupal/src/site/default/ /opt/drupal/web/sites/default
 # Create libraries folder
 RUN mkdir /opt/drupal/web/libraries
 # Create private folders
