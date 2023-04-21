@@ -34,7 +34,7 @@ ORIGINAL_DIR=echo $(pwd)
 mkdir /opt/docker/swhub-${PROJECT}
 
 # Change directory
-echo $(cd /opt/docker)
+cd /opt/docker
 
 # Download drupal
 wget https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VER}.tar.gz
@@ -52,7 +52,7 @@ rm -f drupal-${DRUPAL_VER}.tar.gz
 scp -r ${SRC_USER}@${SRC_DB}:${SRC_PATH}/* /opt/docker/swhub-${PROJECT}/drupal/src/site/default/
 
 # Store database setting values
-echo $(cd /opt/docker/swhub-${PROJECT}/drupal/src/site/default)
+cd /opt/docker/swhub-${PROJECT}/drupal/src/site/default
 while IFS=' = ' read -r var val
 do
   if [[ "${var}" == *"database"* ]]
@@ -181,7 +181,7 @@ echo -e ${my} > ~/.my.cnf
 mysqldump --defaults-group-suffix=${PROJECT} --column-statistics=0 ${database//\'}| gzip > /opt/docker/swhub-${PROJECT}/mysql/src/site-db.sql.gz
 
 # Change directory
-echo $(cd /opt/docker/swhub-${PROJECT})
+cd /opt/docker/swhub-${PROJECT}
 
 # Remove stack if container previously exists
 container_exists=$(docker ps --filter "label=com.docker.swarm.service.name=swhub-${PROJECT}_drupal-${PROJECT}" | sed -n '2p')
@@ -267,4 +267,4 @@ else
   echo "Containers: ${containers}"
 fi
 # Change to original directory
-echo $(cd ${ORIGINAL_DIR})
+cd ${ORIGINAL_DIR}
