@@ -15,9 +15,9 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-    restart: on-failure
-    security_opt:
-      - seccomp:unconfined
+        delay: 3s
+        max_attempts: 3
+        window: 120s
     command: --default_authentication-plugin=mysql_native_password
     networks:
       - test-net
@@ -29,6 +29,12 @@ services:
 
   drupal-test:
     image: landscapedatacommons/drupal-test:9-apache
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 3
+        window: 120s
     depends_on:
       - mysql-test
     networks:
@@ -49,6 +55,12 @@ services:
 
   composer:
     image: composer:2.5.4
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 3
+        window: 120s
     depends_on:
       - drupal-test
     working_dir: /opt/drupal
