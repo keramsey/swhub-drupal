@@ -16,7 +16,7 @@ COPY ./update-composer.sh /opt/drupal
 # Copy script used to update drupal database using drush
 COPY ./update-drush.sh /opt/drupal
 # Copy script used to fix drupal filesystem permissions
-COPY ./drupal/fix-permissions.sh /opt/drupal/web
+COPY ./fix-permissions.sh /opt/drupal/web
 # Copy site folder contents to sites/default
 COPY ./src/site/default/ /opt/drupal/web/sites/default
 # Create libraries folder
